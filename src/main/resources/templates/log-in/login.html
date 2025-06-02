@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"   >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Đăng Nhập</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/layout.css">
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body style="display: block" >
+<div th:replace="~{layout::header}"></div>
+<div th:fragment="content"  class="login-container content">
+    <h2>Đăng Nhập</h2>
+    <form id="loginForm" >
+        <div class="form-group">
+            <label for="username">Tên Đăng Nhập</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Mật Khẩu</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" style="background-color: #28a745"   class="btn">Đăng Nhập</button>
+    </form>
+    <div class="text-center mt-3">
+        <p>Bạn chưa có tài khoản? <a th:href="@{/user/createUser}">Đăng ký ngay</a></p>
+        <p>Hoặc</p>
+        <a th:href="@{/oauth2/authorization/google}" style  class="btn btn-outline-danger btn-block">Đăng nhập bằng Google</a>
+    </div>
+</div>
+<div th:replace="~{layout::footer}"></div>
+</body>
+</html>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Xử lý thông báo lỗi/ thành công (giữ nguyên)
+        const errorMessage = "[[${error}]]";
+        const successMessage = "[[${success}]]";
+
+        if (errorMessage) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi!',
+                text: errorMessage
+            });
+        }
+
+        if (successMessage) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: successMessage
+            });
+        }
+
+        // Xử lý form login bằng AJAX
+        const loginForm = document.getElementById('loginForm');
+
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // Ngăn submit form mặc định
+
+            const formData = {
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value
+            };
+
+            fetch('/auth/log-in', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('HTTP error! Status: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(result => { // Đổi tên biến từ 'data' -> 'result' để rõ nghĩa
+                    if (result.code === 0 && result.data?.token) { // Kiểm cả code và token
+                        // Lưu token vào localStorage
+                        localStorage.setItem('access_token', result.data.token);
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Đăng nhập thành công!',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            window.location.href = '/home'; // Chuyển hướng
+                        });
+                    } else {
+                        throw new Error(result.message || 'Token không hợp lệ');
+                    }
+                })
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi đăng nhập',
+                        text: error.message || 'Lỗi không xác định'
+                    });
+                });
+        });
+    });
+</script>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Trang con</title>
+</head>
+<body >
+<div th:replace="~{lay::header}"></div>
+<div th:fragment="content">
+    <h2>Thư viện đề thi</h2>
+    <p th:text = "${message}">Nội dung của trang con .</p>
+</div>
+<div th:replace="~{lay::footer}"></div>
+</body>
+</html>

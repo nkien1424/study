@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study4 Clone</title>
+    <link rel="stylesheet" type="text/css" href="/css/layout.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<!-- Header -->
+<div th:fragment="header" class="header">
+    <div class="logo">STUDY4</div>
+    <nav>
+        <a href="#">Giới thiệu</a>
+        <a href="#">Chương trình học</a>
+        <a href="#">Đề thi online</a>
+        <a href="#">Flashcards</a>
+        <a href="#">Blog</a>
+        <a th:href="@{/home/log_in}" style="padding: 2px;color: #fff;" class ="btn-login">Đăng nhập</a>
+    </nav>
+</div>
+<div  layout:fragment ="content" >
+
+</div>
+<!-- Content -->
+
+<div th:fragment="footer" >
+    <div class="footer-container">
+        <div class="footer-column">
+            <img src="logo.png" alt="STUDY4 Logo" style="width: 150px;">
+
+        </div>
+        <div class="footer-column">
+            <h3>Về STUDY4</h3>
+            <ul>
+                <li><a href="#">Giới thiệu</a></li>
+                <li><a href="#">Liên hệ</a></li>
+                <li><a href="#">Điều khoản bảo mật</a></li>
+                <li><a href="#">Điều khoản sử dụng</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>Tài nguyên</h3>
+            <ul>
+                <li><a href="#">Thư viện đề thi</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Kho tài liệu</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>Chính sách chung</h3>
+            <ul>
+                <li><a href="#">Hướng dẫn sử dụng</a></li>
+                <li><a href="#">Hướng dẫn thanh toán</a></li>
+                <li><a href="#">Điều khoản và Điều kiện giao dịch</a></li>
+                <li><a href="#">Chính sách kiểm hàng</a></li>
+                <li><a href="#">Chính sách giao, nhận hàng</a></li>
+                <li><a href="#">Phản hồi, khiếu nại</a></li>
+                <li><a href="#">Chính sách chuyển đổi, hoàn hủy</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        CÔNG TY TNHH CÔNG NGHỆ A PLUS | Địa chỉ: Số 15, Ngõ 208 Giải Phóng, Phường Phương Liệt, Quận Thanh Xuân, TP. Hà Nội
+    </div>
+</div>
+</body>
+</html>
+<script>
+
+</script>

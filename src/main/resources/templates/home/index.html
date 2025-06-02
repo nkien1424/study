@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study4 Clone</title>
+    <link rel="stylesheet" type="text/css" href="/css/layout.css">
+    <link  href="/js/index.js" >
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
+</head>
+<body >
+<!-- Header -->
+<div th:replace="~{layout::header}"></div>
+
+<!-- Content -->
+<div layout:fragment="content" class="content">
+    <!-- Categories -->
+    <h2>Thư Viện Đề Thi</h2>
+    <div class="categories">
+        <a href="#">Tất cả</a>
+        <a href="#">IELTS Academic</a>
+        <a href="#">IELTS General</a>
+        <a href="#">TOEIC</a>
+        <a href="#">HSK 1</a>
+        <a href="#">HSK 2</a>
+        <a href="#">HSK 3</a>
+        <a href="#">Toán THPTQG</a>
+        <a href="#">Vật lý THPTQG</a>
+        <a href="#">Sinh học THPTQG</a>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <input type="text" placeholder="Nhập từ khóa bạn muốn tìm kiếm: tên sách, dạng câu hỏi ...">
+        <button>Tìm kiếm</button>
+    </div>
+
+    <!-- Exam List -->
+    <div class="exam-list">
+        <div class="exam-card" th:each="exam : ${exams}" th:data-id="${exam.getID()}   " >
+            <h3 th:text="${exam.getName()}"></h3>
+            <p>⏱ 40 phút | 👥 801720 | 💬 2396</p>
+            <p>8 phần thi | 40 câu hỏi</p>
+            <div class="tags">
+                <span class="tag">#Toiec </span>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div th:replace="~{layout::footer}"></div>
+</body>
+<script>
+    $(document).ready(function() {
+    // Bắt sự kiện click trên exam-card
+    $('.exam-card').click(function() {
+        const examId = $(this).data('id'); // Lấy id từ data attribute
+
+        // Gửi AJAX request
+        $.ajax({
+            url: '/exam',
+            type: 'GET',
+            data: {
+                id: examId
+            },
+            success: function(response) {
+                // Xử lý khi thành công
+                window.location.href = '../exam?id=' + examId;
+            },
+            error: function(xhr) {
+                // Xử lý lỗi
+                alert('Error: ' + xhr.statusText);
+            }
+        });
+    });
+});
+</script>
+</html>
+

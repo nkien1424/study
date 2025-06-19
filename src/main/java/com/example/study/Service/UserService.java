@@ -42,7 +42,7 @@ public class UserService {
     String client_secret;
     public User createUser(UserRequest userRequest) {
         User user = new User();
-        if (userRepository.existsById(userRequest.getName())){
+        if (userRepository.existsByUsername(userRequest.getUsername())) {
             throw new AppException(ErrorCode.User_Existed);
         }
         PasswordEncoder   passwordEncoder = new BCryptPasswordEncoder(10);

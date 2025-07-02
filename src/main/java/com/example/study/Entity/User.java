@@ -35,7 +35,7 @@ public class User {
     String password;
     @Column(nullable = true)
     String providerId;
-    @Column(nullable = false)
+    @Column(nullable = true)
     String name;
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -45,36 +45,6 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserExam> examUsers = new ArrayList<>();
 
-    public void setProvider(String prvider) {
-        this.provider = prvider;
-    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setRoles(Set<String> roles) {
-        this.roles = roles;
-    }
-
-    public void setProviderId(String providedId) {
-        this.providerId = providedId;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
 

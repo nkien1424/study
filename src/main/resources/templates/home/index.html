@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Study4 Clone</title>
     <link rel="stylesheet" type="text/css" href="/css/layout.css">
-    <link  href="/js/index.js" >
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
 </head>
 <body >
@@ -14,8 +13,9 @@
 <div th:replace="~{layout::header}"></div>
 
 <!-- Content -->
-<div layout:fragment="content" class="content">
+<div layout:fragment="content" class="content" style="display: flex">
     <!-- Categories -->
+    <div class="left_site">
     <h2>Thư Viện Đề Thi</h2>
     <div class="categories">
         <a href="#">Tất cả</a>
@@ -38,43 +38,60 @@
 
     <!-- Exam List -->
     <div class="exam-list">
-        <div class="exam-card" th:each="exam : ${exams}" th:data-id="${exam.getID()}   " >
-            <h3 th:text="${exam.getName()}"></h3>
+        <div class="exam-card" th:each="exam : ${exams}" th:data-id="${exam.getID()}"  >
+            <h3 th:text="${exam.getName()} "></h3>
             <p>⏱ 40 phút | 👥 801720 | 💬 2396</p>
-            <p>8 phần thi | 40 câu hỏi</p>
+            <p th:value="${user_google}" >8 phần thi | 40 câu hỏi</p>
             <div class="tags">
                 <span class="tag">#Toiec </span>
             </div>
         </div>
+    </div>
+    </div>
+<div class="right_side">
+    <div class="sidebar">
 
+        <div class="user-goal">
+            <h4>trinhngockien142004</h4>
+            <div class="checkbox-item">
+                <input type="checkbox"> Bạn chưa tạo mục tiêu cho quá trình luyện thi của mình. Tạo ngay.
+            </div>
+            <a href="#">Thống kê kết quả</a>
+        </div>
+
+        <div class="ad-section">
+            <h4>STUDYA</h4>
+            <p>HEETS</p>
+            <p>COMED INTENSIVE COURSES</p>
+            <p>Listening - Reading - Writing - Speaking</p>
+        </div>
+
+        <div class="ad-section">
+            <h4>STUDYA</h4>
+            <p>SCORE CALCULATOR</p>
+            <p>TÍNH ĐIỂM THHELTS</p>
+            <p>CHÍNH XÁC 100%</p>
+        </div>
+
+        <div class="ad-section">
+            <p>Tra từ điển, tạo flashcards</p>
+            <p>mọi lúc mọi nơi</p>
+            <p>STUDYA EXTENSION</p>
+        </div>
+
+        <div class="ad-section">
+            <a href="https://www.facebook.com/groups/517057750992723" target="_blank">
+            <img src="/images/facebook_group.PNG" alt="Facebook"  style="width: 100%; height: auto;" >
+            </a>
+            <p>Tham gia nhóm facebook</p>
+        </div>
     </div>
 </div>
+    <script src="../../js/index.js"></script>
+</div>
 <div th:replace="~{layout::footer}"></div>
-</body>
-<script>
-    $(document).ready(function() {
-    // Bắt sự kiện click trên exam-card
-    $('.exam-card').click(function() {
-        const examId = $(this).data('id'); // Lấy id từ data attribute
 
-        // Gửi AJAX request
-        $.ajax({
-            url: '/exam',
-            type: 'GET',
-            data: {
-                id: examId
-            },
-            success: function(response) {
-                // Xử lý khi thành công
-                window.location.href = '../exam?id=' + examId;
-            },
-            error: function(xhr) {
-                // Xử lý lỗi
-                alert('Error: ' + xhr.statusText);
-            }
-        });
-    });
-});
-</script>
+</body>
+
 </html>
 

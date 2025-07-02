@@ -25,6 +25,8 @@ public class UserExam {
     @JoinColumn(name = "exam_id")
     private Exam exam;
 
+    @Column(name = "name_exam")
+    private String name_exam;  //
     @Column(name = "score")
     private String score;  // Điểm số
 

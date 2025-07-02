@@ -7,18 +7,25 @@
     <title>Study4 Clone</title>
     <link rel="stylesheet" type="text/css" href="/css/layout.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <body>
 <!-- Header -->
 <div th:fragment="header" class="header">
-    <div class="logo">STUDY4</div>
+    <div class="logo" th:onclick="'window.location.href=\'' + @{/home} + '\''" style="cursor: pointer;">
+        STUDY4
+    </div>
+    <script src="../js/exam_detail.js"></script>
     <nav>
         <a href="#">Giới thiệu</a>
         <a href="#">Chương trình học</a>
         <a href="#">Đề thi online</a>
         <a href="#">Flashcards</a>
         <a href="#">Blog</a>
-        <a th:href="@{/home/log_in}" style="padding: 2px;color: #fff;" class ="btn-login">Đăng nhập</a>
+        <div id="auth-section">
+            <a th:href="@{/home/log_in}" style="padding: 2px;color: #fff;" class="btn-login">Đăng nhập</a>
+        </div>
     </nav>
 </div>
 <div  layout:fragment ="content" >
@@ -29,7 +36,7 @@
 <div th:fragment="footer" >
     <div class="footer-container">
         <div class="footer-column">
-            <img src="logo.png" alt="STUDY4 Logo" style="width: 150px;">
+            <img src="/images/study4_logo.webp" alt="STUDY4 Logo" style="width: 150px;">
 
         </div>
         <div class="footer-column">
@@ -69,5 +76,99 @@
 </body>
 </html>
 <script>
+    function parseJwt(token) {
+        try {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
 
+            return JSON.parse(jsonPayload);
+        } catch (e) {
+            console.error('Token không hợp lệ hoặc không phải JWT');
+            return null;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('access_token');
+        const userData = token ? parseJwt(token) : null;
+        const authSection = document.getElementById("auth-section");
+        // Lấy username từ Google nếu có, hoặc từ JWT token nếu không
+        const userGoogleElement = document.getElementById('userGoogle');
+        const userNameFromGoogle = userGoogleElement ? userGoogleElement.value : null;
+
+        // Ưu tiên username từ Google, nếu không có thì lấy từ token
+        const name = userNameFromGoogle || userData?.sub || 'guest'; // 'guest' là giá trị mặc định
+
+        console.log("User data:", userData);
+        console.log("Username:", name);
+
+        document.querySelectorAll('.exam-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const examId = this.getAttribute('data-id');
+                if (examId) {
+                    window.location.href = `/exam?id=${examId}&username=${encodeURIComponent(name)}`;
+                }
+            });
+        });
+        if (token) {
+            const userData = parseJwt(token);
+            if (userData?.sub) {
+                authSection.innerHTML = `
+                <div class="dropdown">
+                    <img src="/images/user_image.jpg" alt="Avatar" class="avatar" id="avatarBtn">
+                    <div class="dropdown-content" id="dropdownMenu">
+                        <div class="notification-header">
+                            <strong>Thông báo</strong>
+                            <p style="margin: 0;">Bạn chưa có thông báo mới.</p>
+                            <a href="/notifications">Xem tất cả >></a>
+                        </div>
+                        <hr>
+                        <a href="/schedule">Lịch học của tôi</a>
+                        <a href="/user/profile">Trang cá nhân</a>
+                        <a href="/user/logout" id="logoutBtn">Đăng xuất</a>
+                    </div>
+                </div>
+            `;
+
+                setTimeout(() => {
+                    const avatarBtn = document.getElementById("avatarBtn");
+                    const dropdown = document.getElementById("dropdownMenu");
+                    const logoutBtn = document.getElementById("logoutBtn");
+
+                    avatarBtn.addEventListener("click", function () {
+                        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+                    });
+
+                    logoutBtn.addEventListener("click", function (e) {
+                        e.preventDefault();
+                        fetch('/user/logout', {
+                            method: 'POST',
+                            credentials: 'include'
+                        }).then(res => {
+                            if (res.ok) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Đăng xuất thành công',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                }).then(() => {
+                                    window.location.href = '/login'; // Hoặc trang bạn muốn redirect
+                                });
+                            }
+                        });
+
+                    });
+
+                    document.addEventListener("click", function (event) {
+                        if (!event.target.closest('.dropdown')) {
+                            dropdown.style.display = "none";
+                        }
+                    });
+                }, 0);
+            }
+        }
+    });
 </script>

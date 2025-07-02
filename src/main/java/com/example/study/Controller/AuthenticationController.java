@@ -8,19 +8,27 @@ import com.example.study.dto.request.IntrospectRequest;
 import com.example.study.dto.response.AuthenticationResponse;
 import com.example.study.dto.response.IntrospectResponse;
 import com.example.study.dto.response.UserResponse;
+import com.example.study.repository.UserRepository;
 import com.nimbusds.jose.JOSEException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.text.ParseException;
+import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -30,6 +38,8 @@ public class AuthenticationController {
     AuthenticationService authenticationService;
     @Autowired
     UserService userService;
+    @Autowired
+    UserRepository userRepository;
     @PostMapping("/getUser")
     ApiResponse<UserResponse> getUser(@RequestBody AuthenticationRequest authenticationRequest) throws ParseException {
         UserResponse userResponse = userService.getUser(authenticationRequest.getUsername(),authenticationRequest.getPassword());
@@ -37,13 +47,22 @@ public class AuthenticationController {
                 .result(userResponse)
                 .build();
     }
-    @RequestMapping("/")
+    @GetMapping("/")
     public Principal getPrincipal(Principal principal) {
         return principal;
     }
+
     @PostMapping("/log-in")
-    ApiResponse<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request){
+    ApiResponse<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request,HttpServletResponse response) throws ParseException, JOSEException {
+
         AuthenticationResponse result = authenticationService.authenticate(request);
+        Cookie cookie = new Cookie("jwt", result.getToken());
+        cookie.setHttpOnly(true); // không cho JS truy cập
+        //cookie.setSecure(true);   // chỉ hoạt động qua HTTPS
+        cookie.setPath("/");
+        cookie.setMaxAge(3600);   // 1 tiếng
+        //cookie.setDomain("yourdomain.com"); // nếu cần
+        response.addCookie(cookie);
         return ApiResponse.<AuthenticationResponse>builder()
                 .result(AuthenticationResponse.builder()
                         .token(result.getToken())
@@ -61,4 +80,27 @@ public class AuthenticationController {
                         .build())
                 .build();
     }
+    public String getJwtFromCookies(HttpServletRequest request) {
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals("jwt")) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
+    }
+    @PostMapping("/getCookie")
+    public ResponseEntity<?> getUserInfo(HttpServletRequest request) throws ParseException, JOSEException {
+        String jwt = getJwtFromCookies(request); // đọc từ cookie
+        if (jwt != null ) {
+            String username =authenticationService.getUsernambyCookie(jwt);
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+             int id = userRepository.findUserById(Integer.valueOf(auth.getName())).getId();
+            log.info(username);
+            return ResponseEntity.ok(Map.of("username", username, "id", id));
+        }
+        return ResponseEntity.status(401).build();
+    }
+
 }

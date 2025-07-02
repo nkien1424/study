@@ -1,9 +1,12 @@
 package com.example.study.Controller;
 
+import com.example.study.Entity.User;
 import com.example.study.Service.AuthenticationService;
 import com.example.study.Service.UserService;
 import com.example.study.dto.request.AuthenticationRequest;
 import com.example.study.repository.ExamRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpEntity;
@@ -37,19 +40,22 @@ public class HomeController {
     @Autowired
     ExamRepository examRepository;
 
-//    @GetMapping("")
-//    public String home() {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        log.info("Principal: {}", auth.getPrincipal());
-//        auth.getAuthorities().forEach(authority -> {
-//            log.info("Authority: {}", authority.getAuthority()); // Quan trọng: xem giá trị thực tế
-//        });
-//        return "home/index";
-//    }
+
     @GetMapping("")
-    public String home(@RequestParam(name = "code", required = false) String code, Model model) {
-        userService.loadUser(code);
+    public String home(@RequestParam(name = "code", required = false) String code, Model model, HttpServletResponse response) {
+
+        User user = userService.loadUser(code,response);
+        //log.info(user.getName());
+        if(user != null) {
+            model.addAttribute("user_google", user.getName());
+        }
+
         model.addAttribute("exams", examRepository.findAll());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        log.info("user: " + auth.getName());
+        if(code!= null) {
+            return  "redirect:/home";
+        }
         return "home/index";
     }
 
@@ -57,7 +63,6 @@ public class HomeController {
 
     @GetMapping("/log_in")
     public String login() {
-
         return "log-in/login";
     }
     @PostMapping("/log_in")

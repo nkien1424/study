@@ -1,0 +1,61 @@
+.edit-profile-wrapper {
+    font-family: Arial, sans-serif;
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+h2 {
+    text-align: center;
+}
+.editProfileForm{
+    width: 40%;
+    margin: 40px auto;
+}
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+input, select, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0056b3;
+}
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+.tab-button {
+    padding: 10px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+.tab-button.active {
+    border-bottom: 3px solid #007bff;
+    color: #007bff;
+}
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+}

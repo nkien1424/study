@@ -1,98 +1,196 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
-    <link rel="stylesheet" type="text/css" href="/css/layout.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
-<head>
 <head>
     <meta charset="UTF-8">
     <title>New Economy TOEIC Test 10</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #f9f9f9; margin: 0; padding: 0; }
-        .container { width: 85%; margin: 20px auto; background: #fff; padding: 20px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
-        h1 { font-size: 24px; margin-bottom: 10px; }
-        .info { margin-bottom: 15px; color: #666; }
-        .attempts-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
-        .attempts-table th, .attempts-table td { border: 1px solid #ddd; padding: 8px; text-align: center; }
-        .tag-section, .part-section { margin-bottom: 20px; }
-        .tag-section h3, .part-section h3 { margin-bottom: 10px; }
-        .tag { display: inline-block; background: #eee; padding: 5px 10px; margin: 4px; border-radius: 3px; font-size: 12px; }
-        .submit-section { margin-top: 20px; }
-    </style>
+    <link rel="stylesheet" type="text/css" href="/css/layout.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/exam_detail.css">
+
 </head>
 <body>
-    <div th:replace="~{layout::header}"></div>
-<div  th:fragment="" class="container">
-    <h1>New Economy TOEIC Test 10 ✅</h1>
-    <p class="info">⏱ Thời gian làm bài: 120 phút | 7 phần thi | 200 câu hỏi | 417 bình luận</p>
 
-    <table class="attempts-table">
-        <thead>
-        <tr>
-            <th>Ngày làm</th>
-            <th>Kết quả</th>
-            <th>Thời gian làm bài</th>
-            <th>Chi tiết</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>28/12/2024</td>
-            <td>2/16</td>
-            <td>0:09:12</td>
-            <td><a href="#">Xem chi tiết</a></td>
-        </tr>
-        <tr>
-            <td>24/09/2024</td>
-            <td>5/20</td>
-            <td>0:34:32</td>
-            <td><a href="#">Xem chi tiết</a></td>
-        </tr>
-        <tr>
-            <td>28/07/2024</td>
-            <td>15/30</td>
-            <td>1:52:23</td>
-            <td><a href="#">Xem chi tiết</a></td>
-        </tr>
-        </tbody>
-    </table>
 
-    <div class="tag-section">
-        <h3>Chọn phần thi bạn muốn làm</h3>
-        <label><input type="checkbox"> Part 1 (6 câu hỏi)</label><br>
-        <div class="tags">
-            <span class="tag">#Part 1 Tranh và người vật</span>
-            <span class="tag">#Part 1 Tranh tả người và vật</span>
+<!-- Đảm bảo đặt content trong fragment content -->
+<div layout:fragment="content" style="display: flex;width: 90%;margin-left: 7%;">
+    <div class="container">
+        <h1 th:text="${exam.getName()}">✅</h1>
+        <p class="info">⏱ Thời gian làm bài: 120 phút | 7 phần thi | 200 câu hỏi | 417 bình luận</p>
+
+        <table class="attempts-table">
+            <thead>
+            <tr>
+                <th>Ngày làm</th>
+                <th>Kết quả</th>
+                <th>Thời gian làm bài</th>
+                <th>Chi tiết</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="history:${user_exam}">
+                <td th:text="${history.getCompletedAt()}"></td>
+                <td th:text="${history.getScore()}"></td>
+                <td>0:09:12</td>
+                <td><a href="#">Xem chi tiết</a></td>
+            </tr>
+
+            </tbody>
+        </table>
+
+        <div class="tag-section">
+            <h3>Chọn phần thi bạn muốn làm</h3>
+
+            <label><input type="checkbox" name="part" value="1"> Part 1 (6 câu hỏi)</label><br>
+            <div class="tags">
+                <span class="tag">#Part 1 Tranh và người vật</span>
+                <span class="tag">#Part 1 Tranh tả người và vật</span>
+            </div>
+
+            <label><input type="checkbox" name="part" value="2"> Part 2 (25 câu hỏi)</label><br>
+            <div class="tags">
+                <span class="tag">#Part 2 Câu hỏi WH</span>
+                <span class="tag">#Part 2 Câu hỏi WHEN</span>
+                <span class="tag">#Part 2 Câu hỏi HOW</span>
+                <span class="tag">#Part 2 Câu hỏi đuôi</span>
+                <span class="tag">#Part 2 Câu hỏi lựa chọn</span>
+            </div>
+
+            <label><input type="checkbox" name="part" value="3"> Part 3 (39 câu hỏi)</label><br>
+            <div class="tags">
+                <span class="tag">#Part 3 Câu hỏi về chủ đề, mục đích</span>
+                <span class="tag">#Part 3 Câu hỏi về danh tính người nói</span>
+                <span class="tag">#Part 3 Câu hỏi về chi tiết cuộc hội thoại</span>
+                <span class="tag">#Part 3 Câu hỏi về hành động tương lai</span>
+                <span class="tag">#Part 3 Câu hỏi kết hợp bảng biểu</span>
+                <span class="tag">#Part 3 Câu hỏi về hàm ý câu nói</span>
+                <span class="tag">#Part 3 Chủ đề: Company - General Office Work</span>
+                <span class="tag">#Part 3 Chủ đề: Company - Personnel</span>
+                <span class="tag">#Part 3 Chủ đề: Company - Business, Marketing</span>
+                <span class="tag">#Part 3 Chủ đề: Company - Event, Project</span>
+                <span class="tag">#Part 3 Chủ đề: Shopping, Service</span>
+                <span class="tag">#Part 3 Chủ đề: Order, Delivery</span>
+                <span class="tag">#Part 3 Chủ đề: Transportation</span>
+                <span class="tag">#Part 3 Câu hỏi về yêu cầu, gợi ý</span>
+            </div>
+
+            <label><input type="checkbox" name="part" value="4"> Part 4 (30 câu hỏi)</label><br>
+            <div class="tags">
+                <span class="tag">#Part 4 Câu hỏi về chủ đề, mục đích</span>
+                <span class="tag">#Part 4 Câu hỏi về danh tính, địa điểm</span>
+                <span class="tag">#Part 4 Câu hỏi về hành động tương lai</span>
+                <span class="tag">#Part 4 Câu hỏi kết hợp bảng biểu</span>
+                <span class="tag">#Part 4 Câu hỏi về hàm ý câu nói</span>
+                <span class="tag">#Part 4 Dạng bài: Telephone message - Tin nhắn thoại</span>
+                <span class="tag">#Part 4 Dạng bài: Advertisement - Quảng cáo</span>
+                <span class="tag">#Part 4 Dạng bài: Announcement - Thông báo</span>
+                <span class="tag">#Part 4 Dạng bài: Talk - Bài phát biểu, thuyết trình</span>
+                <span class="tag">#Part 4 Dạng bài: Excerpt from a meeting - Trích dẫn từ buổi họp</span>
+                <span class="tag">#Part 4 Câu hỏi yêu cầu, gợi ý</span>
+            </div>
+
+            <label><input type="checkbox" name="part" value="5"> Part 5 (30 câu hỏi)</label><br>
+            <div class="tags">
+                <span class="tag">#Part 5 Câu hỏi từ loại</span>
+                <span class="tag">#Part 5 Câu hỏi ngữ pháp</span>
+                <span class="tag">#Part 5 Câu hỏi từ vựng</span>
+                <span class="tag">#Grammar Danh từ</span>
+                <span class="tag">#Grammar Tính từ</span>
+                <span class="tag">#Grammar Động từ nguyên mẫu</span>
+                <span class="tag">#Grammar Giới từ</span>
+                <span class="tag">#Grammar Liên từ</span>
+                <span class="tag">#Grammar Cấu trúc so sánh</span>
+                <span class="tag">#Grammar Thì</span>
+                <span class="tag">#Grammar Trạng từ</span>
+                <span class="tag">#Grammar Câu điều kiện</span>
+                <span class="tag">#Grammar Thể</span>
+            </div>
+
+            <label><input type="checkbox" name="part" value="6"> Part 6 (16 câu hỏi)</label><br>
+            <div class="tags">
+                <span class="tag">#Part 6 Dạng bài: Email/ Thư tín</span>
+                <span class="tag">#Part 6 Dạng bài: Memo</span>
+                <span class="tag">#Part 6 Dạng bài: Notice</span>
+                <span class="tag">#Grammar Danh từ</span>
+                <span class="tag">#Grammar Giới từ</span>
+                <span class="tag">#Grammar Tính từ</span>
+                <span class="tag">#Grammar Câu điều kiện</span>
+                <span class="tag">#Grammar Liên từ</span>
+                <span class="tag">#Grammar Thể</span>
+                <span class="tag">#Grammar Trạng từ</span>
+            </div>
+
+            <label><input type="checkbox" name="part" value="7"> Part 7 (54 câu hỏi)</label><br>
+            <div class="tags">
+                <span class="tag">#Part 7 Câu hỏi tìm thông tin</span>
+                <span class="tag">#Part 7 Câu hỏi tìm chi tiết sai</span>
+                <span class="tag">#Part 7 Câu hỏi về chủ đề, mục đích</span>
+                <span class="tag">#Part 7 Câu hỏi suy luận</span>
+                <span class="tag">#Part 7 Câu hỏi điền câu</span>
+                <span class="tag">#Part 7 Cấu trúc: một đoạn</span>
+                <span class="tag">#Part 7 Cấu trúc: nhiều đoạn</span>
+                <span class="tag">#Part 7 Dạng bài: Email/ Letter: Thư điện tử/ Thư tay</span>
+                <span class="tag">#Part 7 Dạng bài: Article/ Review: Bài báo/ Bài đánh giá</span>
+                <span class="tag">#Part 7 Dạng bài: Advertisement - Quảng cáo</span>
+                <span class="tag">#Part 7 Dạng bài: Notice - Thông báo</span>
+                <span class="tag">#Part 7 Dạng bài: Text message chain - Chuỗi tin nhắn</span>
+                <span class="tag">#Part 7 Dạng bài: Schedule - Lịch trình, thời gian biểu</span>
+                <span class="tag">#Part 7 Câu hỏi về đồng nghĩa</span>
+                <span class="tag">#Part 7 Câu hỏi về hàm ý câu nói</span>
+            </div>
+            <div class="time-selection" style="margin: 20px 0;">
+                <h3>Giới hạn thời gian (Để trống để làm bài không giới hạn)</h3>
+                <select  id="timeLimit"  style="padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+                    <option value="120">- Chọn thời gian -</option>
+                    <option value="15">15 phút</option>
+                    <option value="30">30 phút</option>
+                    <option value="45">45 phút</option>
+                    <option value="60">60 phút</option>
+                    <option value="75">75 phút</option>
+                    <option value="90">90 phút</option>
+                    <option value="105">105 phút</option>
+                    <option value="120">120 phút</option>
+                </select>
+            </div>
+
+            <div class="practice-button"  style="margin: 20px 0;">
+                <button onclick="prac()" id="practiceBtn" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;">
+                    LUYỆN TẬP
+                </button>
+            </div>
         </div>
 
-        <label><input type="checkbox"> Part 2 (25 câu hỏi)</label><br>
-        <div class="tags">
-            <span class="tag">#Part 2 Câu hỏi WH</span>
-            <span class="tag">#Part 2 Câu hỏi WHEN</span>
-            <span class="tag">#Part 2 Câu hỏi HOW</span>
-            <span class="tag">#Part 2 Câu hỏi đuôi</span>
-            <span class="tag">#Part 2 Câu hỏi lựa chọn</span>
-        </div>
+    </div>
+    <div class="rightside" style="    margin-top: 86px;
+    margin-left: 20px;">
+        <div class="sidebar">
 
-        <label><input type="checkbox"> Part 5 (30 câu hỏi)</label><br>
-        <div class="tags">
-            <span class="tag">#Grammar Danh từ</span>
-            <span class="tag">#Grammar Tính từ</span>
-            <span class="tag">#Grammar Giới từ</span>
+            <div class="user-goal">
+                <h4>trinhngockien142004</h4>
+                <div class="checkbox-item">
+                    <input type="checkbox"> Bạn chưa tạo mục tiêu cho quá trình luyện thi của mình. Tạo ngay.
+                </div>
+                <a href="#">Thống kê kết quả</a>
+            </div>
+
+
+            <div class="ad-section">
+                <p>Tra từ điển, tạo flashcards</p>
+                <p>mọi lúc mọi nơi</p>
+                <p>STUDYA EXTENSION</p>
+            </div>
+
+            <div class="ad-section">
+                <a href="https://www.facebook.com/groups/517057750992723" target="_blank">
+                    <img src="/images/facebook_group.PNG" alt="Facebook"  style="width: 100%; height: auto;" >
+                </a>
+                <p>Tham gia nhóm facebook</p>
+            </div>
         </div>
     </div>
 
-    <div class="submit-section">
-        <label for="time-limit">Giới hạn thời gian:</label>
-        <select id="time-limit">
-            <option>-- Chọn thời gian --</option>
-            <option>10 phút</option>
-            <option>20 phút</option>
-            <option>30 phút</option>
-        </select>
-        <button style="margin-left: 10px;">LUYỆN TẬP</button>
-    </div>
 </div>
-    <div th:replace="~{layout::footer}"></div>
+
+
 </body>
 </html>

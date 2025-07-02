@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>New Economy TOEIC Test 10</title>
+  <link rel="stylesheet" type="text/css" href="/css/layout.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/exam_detail.css">
+</head>
+
+<body layout:fragment="content" style="margin-top:70px">
+
+<h2 th:text="${time}"></h2>
+
+<div class="audio-controls">
+  <label>
+    <input  type="checkbox"> Highlight nội dung
+  </label>
+  <br>
+  <audio controls>
+    <source src="audio-placeholder.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+</div>
+
+<div class="part-navigation">
+  <button>Part 1</button>
+  <button>Part 2</button>
+  <button>Part 3</button>
+  <button>Part 4</button>
+  <button>Part 5</button>
+  <button>Part 6</button>
+  <button>Part 7</button>
+</div>
+
+<!-- Question 1 -->
+<div class="question-block">
+  <img class="question-image" src="question1.jpg" alt="Question 1">
+  <div class="options">
+    <label><input type="radio" name="q1"> A.</label>
+    <label><input type="radio" name="q1"> B.</label>
+    <label><input type="radio" name="q1"> C.</label>
+    <label><input type="radio" name="q1"> D.</label>
+  </div>
+</div>
+
+<!-- Question 2 -->
+<div class="question-block">
+  <img class="question-image" src="question2.jpg" alt="Question 2">
+  <div class="options">
+    <label><input type="radio" name="q2"> A.</label>
+    <label><input type="radio" name="q2"> B.</label>
+    <label><input type="radio" name="q2"> C.</label>
+    <label><input type="radio" name="q2"> D.</label>
+  </div>
+</div>
+
+<!-- Question 3 -->
+<div class="question-block">
+  <img class="question-image" src="question3.jpg" alt="Question 3">
+  <div class="options">
+    <label><input type="radio" name="q3"> A.</label>
+    <label><input type="radio" name="q3"> B.</label>
+    <label><input type="radio" name="q3"> C.</label>
+    <label><input type="radio" name="q3"> D.</label>
+  </div>
+</div>
+
+<!-- Question 4 -->
+<div class="question-block">
+  <img class="question-image" src="question4.jpg" alt="Question 4">
+  <div class="options">
+    <label><input type="radio" name="q4"> A.</label>
+    <label><input type="radio" name="q4"> B.</label>
+    <label><input type="radio" name="q4"> C.</label>
+    <label><input type="radio" name="q4"> D.</label>
+  </div>
+</div>
+</body>
+</html>

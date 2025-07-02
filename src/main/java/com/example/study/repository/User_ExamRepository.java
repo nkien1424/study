@@ -13,5 +13,7 @@ import java.util.List;
 @Repository
 public interface User_ExamRepository extends JpaRepository<UserExam,String> {
     List<UserExam> findAllByExamAndUser(Exam exam, User user);
-    
+
+    List<UserExam> findAllByUser_Id(Integer userId);
+
 }

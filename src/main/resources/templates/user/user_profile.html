@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang Cá Nhân</title>
+    <link rel="stylesheet" type="text/css" href="/css/layout.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/user_profile.css">
+</head>
+<body>
+<div th:replace="~{layout::header}"></div>
+
+<!-- Đảm bảo đặt content trong fragment content -->
+<div layout:fragment="content">
+    <div class="profile-container">
+        <!-- Banner + avatar -->
+        <div class="profile-header">
+            <img src="/path/banner.jpg" class="banner">
+            <div class="avatar-container">
+                <img src="/images/user_image.jpg" class="avatar_profile">
+                <button onclick="window.location.href='/user/edit_information'" class="edit-avatar-btn">✏️</button>
+
+            </div>
+            <h2 th:text="${user.getName()}" class="username"></h2>
+            <span class="public-label">Trang công khai</span>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tab-bar">
+            <button class="tab active">Khóa học</button>
+            <button class="tab">Kết quả luyện thi</button>
+        </div>
+        <button class="go-to-statistics">📊 Tới trang thống kê kết quả luyện thi</button>
+        <!-- Kết quả luyện thi -->
+        <div th:each="exam:${exams}" class="practice-result-section">
+
+
+            <h3 th:text="${exam.getName_exam()}"></h3>
+            <table class="result-table">
+                <thead>
+                <tr>
+                    <th>Ngày làm</th>
+                    <th>Kết quả</th>
+                    <th>Thời gian làm bài</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>15/05/2025 <span class="badge fulltest">Full test</span></td>
+                    <td th:text="${exam.getScore()}"></td>
+                    <td th:text="${exam.getCompletedAt()}"></td>
+                    <td><a href="#">Xem chi tiết</a></td>
+                </tr>
+
+                <!-- thêm dòng khác -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="~{layout::footer}"></div>
+</body>
+</html>

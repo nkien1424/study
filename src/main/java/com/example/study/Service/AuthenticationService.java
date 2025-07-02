@@ -13,6 +13,9 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.experimental.NonFinal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
@@ -36,8 +39,10 @@ public class AuthenticationService {
     @Value("${jwt.signerKey}")
     private  String Signer_Key ;
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest){
-        var user = userRepository.findUserByUsername(authenticationRequest.getUsername())
-                .orElseThrow(() -> new AppException(ErrorCode.User_Not_Existed));
+        var user = userRepository.findUserByUsername(authenticationRequest.getUsername());
+        if(user==null){
+            throw  new AppException(ErrorCode.User_Not_Existed);
+        }
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         boolean authenticated = passwordEncoder.matches(authenticationRequest.getPassword(),user.getPassword());
         if(!authenticated) {
@@ -51,10 +56,11 @@ public class AuthenticationService {
     public String generateToken(User user) {
         JWSHeader jwsHeader=new JWSHeader(JWSAlgorithm.HS512);
         JWTClaimsSet jwtClaimsSet=new JWTClaimsSet.Builder()
-                .subject(user.getUsername())
+                .subject(String.valueOf(user.getId()))
                 .issuer("study.com")
                 .expirationTime(new java.util.Date(System.currentTimeMillis()+1000*60*60*24))
                 .claim("roles",user.getRoles())
+                .claim("username",user.getUsername())
                 .build();
         Payload payload=new Payload(jwtClaimsSet.toJSONObject());
         JWSObject jwsObject = new JWSObject(jwsHeader,payload);
@@ -76,6 +82,11 @@ public class AuthenticationService {
                 .valid(valid&&expirationTime.after(new Date()))
                 .build();
     }
+    public String getUsernambyCookie(String token)throws JOSEException, ParseException{
+        JWSVerifier verifier = new MACVerifier(Signer_Key.getBytes());
+        SignedJWT signedJWT = SignedJWT.parse(token);
+        return signedJWT.getJWTClaimsSet().getClaim("username").toString();
+    }
     private String generateScope(User user) {
         StringJoiner stringJoiner = new StringJoiner(" ");
         if(!CollectionUtils.isEmpty(user.getRoles())) {
@@ -83,4 +94,5 @@ public class AuthenticationService {
         }
         return stringJoiner.toString();
     }
+
 }

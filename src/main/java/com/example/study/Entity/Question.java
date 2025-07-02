@@ -30,10 +30,9 @@ public class Question {
     private List<String> answer;
     @Column(unique = false, nullable = false)
     private int part;
-//    @Column(unique = false, nullable = true)
-//    private String Image;
+   @Column(unique = false, nullable = true)
+   private String Image;
     @ManyToOne
     @JoinColumn(name = "exam_id",nullable = false)
-    @CollectionTable(name = "exam_id", joinColumns = @JoinColumn(name = "user_id"))
     private Exam exam;
 }

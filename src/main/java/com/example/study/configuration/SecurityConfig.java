@@ -26,6 +26,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import org.springframework.context.annotation.Primary;
@@ -44,10 +45,11 @@ public class SecurityConfig {
     private String signerKey;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, InMemoryClientRegistrationRepository clientRegistrationRepository) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, InMemoryClientRegistrationRepository clientRegistrationRepository, JwtCookieAuthenticationFilter jwtCookieAuthenticationFilter) throws Exception {
 
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers(new AntPathRequestMatcher("/home")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/exam/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/exam")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/user/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/home/log_in")).permitAll()
@@ -77,6 +79,7 @@ public class SecurityConfig {
         http.exceptionHandling(ex -> ex
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
         );
+        http.addFilterBefore(jwtCookieAuthenticationFilter, SecurityContextHolderAwareRequestFilter.class);
         http.csrf(AbstractHttpConfigurer::disable);
 
         return http.build();

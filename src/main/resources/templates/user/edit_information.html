@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Trang Cá Nhân</title>
+  <link rel="stylesheet" type="text/css" href="/css/layout.css">
+  <link rel="stylesheet" type="text/css" href="/css/edit_information.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+
+<!-- CHỈ fragment content, layout.html sẽ tự chèn header & footer -->
+<div layout:fragment="content" class="edit-profile-wrapper">
+  <div class="profile-container">
+    <!-- Banner + avatar -->
+    <div class="profile-header">
+
+      <div class="tabs">
+        <button class="tab-button active" onclick="showTab('info-tab')">Thông tin cơ bản</button>
+        <button class="tab-button" onclick="showTab('privacy-tab')">Quyền riêng tư</button>
+        <button class="tab-button" onclick="showTab('password-tab')">Thay mật khẩu</button>
+      </div>
+
+      <div id="info-tab" class="tab-content active">
+        <h2>Chỉnh sửa thông tin cá nhân</h2>
+        <form id="editProfileForm">
+          <label for="username">Tên người dùng</label>
+          <input type="text" id="username" name="username" required th:value="${user.getName()}"/>
+
+
+
+
+          <label for="bio">Giới thiệu bản thân</label>
+          <textarea id="bio" name="bio" rows="4">I'm a chill guy</textarea>
+
+          <label for="gender">Giới tính</label>
+          <select id="gender" name="gender">
+            <option value="">-- Chọn giới tính --</option>
+            <option value="male">Nam</option>
+            <option value="female">Nữ</option>
+            <option value="other">Khác</option>
+          </select>
+
+          <button type="submit">Lưu thay đổi</button>
+        </form>
+      </div>
+
+      <div id="privacy-tab" class="tab-content">
+        <p>Chức năng quyền riêng tư đang phát triển...</p>
+      </div>
+
+      <div id="password-tab" class="tab-content">
+        <h3>Đổi mật khẩu</h3>
+        <form id="changePasswordForm">
+          <label for="oldPassword">Mật khẩu hiện tại</label>
+          <input type="password" id="oldPassword" name="oldPassword" required>
+
+          <label for="newPassword">Mật khẩu mới</label>
+          <input type="password" id="newPassword" name="newPassword" required>
+
+          <label for="confirmPassword">Nhập lại mật khẩu mới</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+          <button type="submit">Xác nhận đổi mật khẩu</button>
+        </form>
+      </div>
+      <script src="../js/edit_info.js"></script>
+    </div>
+  </div>
+
+</div>
+
+</html>

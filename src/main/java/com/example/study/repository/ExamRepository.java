@@ -11,4 +11,5 @@ public interface ExamRepository extends JpaRepository<Exam, Integer> {
     List<Exam> findAll(Sort sort);
 
     Exam findExamByID(int idexam);
+
 }

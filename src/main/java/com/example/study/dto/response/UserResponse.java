@@ -14,7 +14,6 @@ import java.util.Set;
 public class UserResponse {
     Integer id;
     String username;
-    //ize(min=8,message("Password is 8 charecter at least"))
     String password;
     String name;
     Set<String> roles;

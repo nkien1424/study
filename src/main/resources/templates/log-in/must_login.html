@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng ký</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+        }
+
+        .register-box {
+            width: 400px;
+            margin: 50px auto;
+            padding: 20px 25px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .register-box p {
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-facebook {
+            background: #fff;
+            color: #3b5998;
+            border: 1px solid #3b5998;
+        }
+
+        .btn-facebook:hover {
+            background: #3b5998;
+            color: #fff;
+        }
+
+        .btn-gmail {
+            background: #fff;
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
+        }
+
+        .btn-gmail:hover {
+            background: #e74c3c;
+            color: #fff;
+        }
+
+        .terms {
+            font-size: 13px;
+            color: #555;
+            margin-top: 15px;
+            line-height: 1.4;
+        }
+
+        .terms a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .terms a:hover {
+            text-decoration: underline;
+        }
+
+        .login-link {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{layout::header}"></div>
+<div class="register-box">
+    <p>
+        Đăng ký ngay để bắt đầu trải nghiệm học tiếng Anh và luyện thi TOEIC/IELTS hiệu quả cùng hàng trăm ngàn học viên mỗi ngày.
+    </p>
+
+    <a href="/home/sign_up" class="btn btn-facebook">Đăng ký với Facebook</a>
+    <a href="/oauth2/authorization/google" class="btn btn-gmail">Đăng ký với Gmail</a>
+
+    <div class="terms">
+        Bằng cách đăng ký, bạn đồng ý với <a href="#">điều khoản sử dụng</a> và <a href="#">điều khoản bảo mật</a>.
+    </div>
+
+    <div class="login-link">
+        Đã có tài khoản? <a href="/home/log_in">Đăng nhập ngay!</a>
+    </div>
+</div>
+<div th:replace="~{layout::footer}"></div>
+</body>
+</html>

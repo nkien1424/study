@@ -10,6 +10,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class AuthenticationResponse {
-    boolean isAuthenticated;
-    String token;
+  boolean isAuthenticated;
+  String token;
 }

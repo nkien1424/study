@@ -7,33 +7,32 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ApiResponse <T>{
-    private int code;
-    private String message;
-    private T result;
+public class ApiResponse<T> {
+  private int code;
+  private String message;
+  private T result;
 
-    public void setCode(int code) {
-        this.code = code;
-    }
+  public void setCode(int code) {
+    this.code = code;
+  }
 
-    public void setData(T data) {
-        this.result = data;
-    }
+  public void setData(T data) {
+    this.result = data;
+  }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+  public void setMessage(String message) {
+    this.message = message;
+  }
 
-    public int getCode() {
-        return code;
-    }
+  public int getCode() {
+    return code;
+  }
 
-    public String getMessage() {
-        return message;
-    }
+  public String getMessage() {
+    return message;
+  }
 
-    public T getData() {
-        return result;
-    }
+  public T getData() {
+    return result;
+  }
 }
-

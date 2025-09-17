@@ -1,81 +1,561 @@
 <!DOCTYPE html>
-<html lang="vi" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
   <meta charset="UTF-8">
-  <title>New Economy TOEIC Test 10</title>
-  <link rel="stylesheet" type="text/css" href="/css/layout.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="/css/exam_detail.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2024 Practice Set TOEIC Test 1 </title>
+  <script th:inline="javascript">
+    let selectedParts = /*[[${part}]]*/ [];
+    console.log("Selected parts:", selectedParts);
+  </script>
+  <link rel="stylesheet" type="text/css" href="/css/practice.css">
+
 </head>
+<body>
+<div class="container">
+  <div class="main-content">
+    <div class="header">
 
-<body layout:fragment="content" style="margin-top:70px">
+      <h1>2024 Practice Set TOEIC Test 1 </h1>
+      <div class="test-badge ">Thời gian: <span th:text="${timeLimit}" ></span>phút</div>
+    </div>
 
-<h2 th:text="${time}"></h2>
+<!--    <div class="controls">-->
+<!--      <div class="highlight-toggle">-->
+<!--        <span>🔍 Highlight not doing</span>-->
+<!--        <div class="toggle-switch" onclick="toggleHighlight()"></div>-->
+<!--      </div>-->
 
-<div class="audio-controls">
-  <label>
-    <input  type="checkbox"> Highlight nội dung
-  </label>
-  <br>
-  <audio controls>
-    <source src="audio-placeholder.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
+<!--      <audio controls loop >-->
+<!--        <source src="/sound/Test_01.mp3" type="audio/mpeg">-->
+<!--        Trình duyệt không hỗ trợ âm thanh.-->
+<!--      </audio>-->
+<!--    </div>-->
+
+    <div class="part-navigation">
+
+      <div class="part-tabs">
+        <div class="part-tab" data-part="1" onclick="togglePart(1)">Part 1</div>
+        <div class="part-tab" data-part="2" onclick="togglePart(2)">Part 2</div>
+        <div class="part-tab" data-part="3" onclick="togglePart(3)">Part 3</div>
+        <div class="part-tab" data-part="4" onclick="togglePart(4)">Part 4</div>
+        <div class="part-tab" data-part="5" onclick="togglePart(5)">Part 5</div>
+        <div class="part-tab" data-part="6" onclick="togglePart(6)">Part 6</div>
+        <div class="part-tab" data-part="7" onclick="togglePart(7)">Part 7</div>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- Part 1 Content -->
+      <div class="part-content" id="part1">
+        <div class="part-header">
+          <h2>Part 1: Photographs</h2>
+          <div class="part-description">Listen to four statements about each photograph, then select the statement that best describes what you see.</div>
+        </div>
+        <div th:each="p1:${part1}">
+        <div class="question">
+          <div class="question-header">
+          <div class="question-number" th:text="${p1.getNumber()}"></div>
+          <audio controls  >
+            <source th:src="${p1.getAudio()}" type="audio/mpeg">
+            Trình duyệt không hỗ trợ âm thanh.
+          </audio>
+          </div>
+          <img th:src="${p1.getImage()}" alt="Office worker on phone" class="question-image">
+          <div class="options">
+            <div class="option" th:attr="onclick=|selectOption(${p1.getNumber()}, 'A')|" >
+              <input type="radio" th:name="'q' + ${p1.getNumber()}" th:value="A" th:id="'q' + ${p1.getNumber()} + 'a'">
+              <label th:for="'q' + ${p1.getNumber()} + 'a'" th:text="${p1.getOptionA()}"></label>
+            </div>
+            <div class="option" th:attr="onclick=|selectOption(${p1.getNumber()}, 'B')|" >
+              <input type="radio" th:name="'q' + ${p1.getNumber()}" th:value="B" th:id="'q' + ${p1.getNumber()} + 'b'">
+              <label th:for="'q' + ${p1.getNumber()} + 'b'" th:text="${p1.getOptionB()}"></label>
+            </div>
+            <div class="option" th:attr="onclick=|selectOption(${p1.getNumber()}, 'C')|" >
+              <input type="radio" th:name="'q' + ${p1.getNumber()}" th:value="C" th:id="'q' + ${p1.getNumber()} + 'c'">
+              <label th:for="'q' + ${p1.getNumber()} + 'c'" th:text="${p1.getOptionC()}"></label>
+            </div>
+            <div class="option" th:attr="onclick=|selectOption(${p1.getNumber()}, 'D')|" >
+              <input type="radio" th:name="'q' + ${p1.getNumber()}" th:value="D" th:id="'q' + ${p1.getNumber()} + 'd'">
+              <label th:for="'q' + ${p1.getNumber()} + 'd'" th:text="${p1.getOptionD()}"></label>
+            </div>
+          </div>
+        </div>
+        </div>
+
+      </div>
+
+      <!-- Part 2 Content -->
+      <div class="part-content" id="part2">
+        <div class="part-header">
+          <h2>Part 2: Question-Response</h2>
+          <div class="part-description">Listen to a question followed by three responses. Select the best response to each question.</div>
+        </div>
+
+            <div th:each="p2:${part2}">
+        <div class="question">
+          <div class="question-header">
+          <div class="question-number" th:text="${p2.getNumber()}"></div>
+            <audio controls  >
+                <source th:src="${p2.getAudio()}" type="audio/mpeg">
+                Trình duyệt không hỗ trợ âm thanh.
+            </audio>
+          </div>
+          <div class="options single-column">
+            <div class="option" th:attr="onclick=|selectOption(${p2.getNumber()}, 'A')|" >
+              <input type="radio" th:name="'q' + ${p2.getNumber()}" th:value="A" th:id="'q' + ${p2.getNumber()} + 'a'">
+              <label th:for="'q' + ${p2.getNumber()} + 'a'" th:text="${p2.getOptionA()}"></label>
+            </div>
+              <div class="option" th:attr="onclick=|selectOption(${p2.getNumber()}, 'B')|" >
+                  <input type="radio" th:name="'q' + ${p2.getNumber()}" th:value="B" th:id="'q' + ${p2.getNumber()} + 'b'">
+                  <label th:for="'q' + ${p2.getNumber()} + 'b'" th:text="${p2.getOptionB()}"></label>
+              </div>
+              <div class="option" th:attr="onclick=|selectOption(${p2.getNumber()}, 'C')|" >
+                  <input type="radio" th:name="'q' + ${p2.getNumber()}" th:value="C" th:id="'q' + ${p2.getNumber()} + 'c'">
+                  <label th:for="'q' + ${p2.getNumber()} + 'c'" th:text="${p2.getOptionC()}"></label>
+              </div>
+          </div>
+        </div>
+            </div>
+
+
+      </div>
+
+      <div class="part-content" id="part3">
+        <div class="part-header">
+          <h2>Part 3: Conversations</h2>
+          <div class="part-description">Listen to conversations between two or more people, then answer 3 questions about each conversation.</div>
+        </div>
+        <div th:each="group,iterStat:${questionGroups_3}">
+        <!-- Conversation 1: Questions 32-34 -->
+        <div class="conversation-group"   >
+
+
+          <div th:if="${iterStat.index <=9  }">
+            <audio controls  >
+              <source th:src="${group[0].getAudio()}" type="audio/mpeg">
+              Trình duyệt không hỗ trợ âm thanh.
+            </audio>
+        <div th:each="p3:${group}">
+          <div class="question">
+            <div class="question-number" th:text="${p3.getNumber()}"></div>
+            <div class="question-text" th:text="${p3.getQuestion()}"></div>
+            <div class="options">
+              <div class="option" th:attr="onclick=|selectOption(${p3.getNumber()}, 'A')|" >
+                <input type="radio" th:name="'q' + ${p3.getNumber()}" th:value="A" th:id="'q' + ${p3.getNumber()} + 'a'">
+                <label th:for="'q' + ${p3.getNumber()} + 'a'" th:text="${p3.getOptionA()}"></label>
+              </div>
+              <div class="option" th:attr="onclick=|selectOption(${p3.getNumber()}, 'B')|" >
+                <input type="radio" th:name="'q' + ${p3.getNumber()}" th:value="B" th:id="'q' + ${p3.getNumber()} + 'b'">
+                <label th:for="'q' + ${p3.getNumber()} + 'b'" th:text="${p3.getOptionB()}"></label>
+              </div>
+              <div class="option" th:attr="onclick=|selectOption(${p3.getNumber()}, 'C')|" >
+                <input type="radio" th:name="'q' + ${p3.getNumber()}" th:value="C" th:id="'q' + ${p3.getNumber()} + 'c'">
+                <label th:for="'q' + ${p3.getNumber()} + 'c'" th:text="${p3.getOptionC()}"></label>
+              </div>
+              <div class="option" th:attr="onclick=|selectOption(${p3.getNumber()}, 'D')|" >
+                <input type="radio" th:name="'q' + ${p3.getNumber()}" th:value="C" th:id="'q' + ${p3.getNumber()} + 'd'">
+                <label th:for="'q' + ${p3.getNumber()} + 'c'" th:text="${p3.getOptionD()}"></label>
+              </div>
+            </div>
+          </div>
+        </div>
+          </div>
+          <div th:if="${iterStat.index >=10  }">
+            <div class="partition">
+            <div>
+            <audio controls  >
+              <source th:src="${group[0].getAudio()}" type="audio/mpeg">
+              Trình duyệt không hỗ trợ âm thanh.
+            </audio>
+            <div class="image-p7">
+              <div class="part7-image">
+                <img th:src="${group[0].getImage()}" alt="img">
+              </div>
+            </div>
+            </div>
+              <div>
+            <div th:each="p3:${group}">
+
+              <div class="question" >
+                <div class="question-number" th:text="${p3.getNumber()}"></div>
+
+                <div class="question-text">What does the man want to do?</div>
+                <div class="options">
+                  <div class="option" th:attr="onclick=|selectOption(${p3.getNumber()}, 'A')|" >
+                    <input type="radio" th:name="'q' + ${p3.getNumber()}" th:value="A" th:id="'q' + ${p3.getNumber()} + 'a'">
+                    <label th:for="'q' + ${p3.getNumber()} + 'a'" th:text="${p3.getOptionA()}"></label>
+                  </div>
+                  <div class="option" th:attr="onclick=|selectOption(${p3.getNumber()}, 'B')|" >
+                    <input type="radio" th:name="'q' + ${p3.getNumber()}" th:value="B" th:id="'q' + ${p3.getNumber()} + 'b'">
+                    <label th:for="'q' + ${p3.getNumber()} + 'b'" th:text="${p3.getOptionB()}"></label>
+                  </div>
+                  <div class="option" th:attr="onclick=|selectOption(${p3.getNumber()}, 'C')|" >
+                    <input type="radio" th:name="'q' + ${p3.getNumber()}" th:value="C" th:id="'q' + ${p3.getNumber()} + 'c'">
+                    <label th:for="'q' + ${p3.getNumber()} + 'c'" th:text="${p3.getOptionC()}"></label>
+                  </div>
+                  <div class="option" th:attr="onclick=|selectOption(${p3.getNumber()}, 'D')|" >
+                    <input type="radio" th:name="'q' + ${p3.getNumber()}" th:value="D" th:id="'q' + ${p3.getNumber()} + 'd'">
+                    <label th:for="'q' + ${p3.getNumber()} + 'd'" th:text="${p3.getOptionD()}"></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+              </div>
+          </div>
+          </div>
+        </div>
+
+        <!-- Conversation 2: Questions 35-37 -->
+        </div>
+        <!-- Conversation 3: Questions 38-40 -->
+      </div>
+      <div class="part-content" id="part4">
+        <div class="part-header">
+          <h2>Part 4: Conversations</h2>
+          <div class="part-description">Listen to conversations between two or more people, then answer 4 questions about each conversation.</div>
+        </div>
+        <div th:each="group,iterStat:${questionGroups_4}">
+          <!-- Conversation 1: Questions 42-44 -->
+          <div class="conversation-group"   >
+
+
+            <div th:if="${iterStat.index <=7  }">
+              <audio controls  >
+                <source th:src="${group[0].getAudio()}" type="audio/mpeg">
+                Trình duyệt không hỗ trợ âm thanh.
+              </audio>
+              <div th:each="p4:${group}">
+                <div class="question">
+                  <div class="question-number" th:text="${p4.getNumber()}"></div>
+                  <div class="question-text" th:text="${p4.getQuestion()}"></div>
+                  <div class="options">
+                    <div class="option" th:attr="onclick=|selectOption(${p4.getNumber()}, 'A')|" >
+                      <input type="radio" th:name="'q' + ${p4.getNumber()}" th:value="A" th:id="'q' + ${p4.getNumber()} + 'a'">
+                      <label th:for="'q' + ${p4.getNumber()} + 'a'" th:text="${p4.getOptionA()}"></label>
+                    </div>
+                    <div class="option" th:attr="onclick=|selectOption(${p4.getNumber()}, 'B')|" >
+                      <input type="radio" th:name="'q' + ${p4.getNumber()}" th:value="B" th:id="'q' + ${p4.getNumber()} + 'b'">
+                      <label th:for="'q' + ${p4.getNumber()} + 'b'" th:text="${p4.getOptionB()}"></label>
+                    </div>
+                    <div class="option" th:attr="onclick=|selectOption(${p4.getNumber()}, 'C')|" >
+                      <input type="radio" th:name="'q' + ${p4.getNumber()}" th:value="C" th:id="'q' + ${p4.getNumber()} + 'c'">
+                      <label th:for="'q' + ${p4.getNumber()} + 'c'" th:text="${p4.getOptionC()}"></label>
+                    </div>
+                    <div class="option" th:attr="onclick=|selectOption(${p4.getNumber()}, 'D')|" >
+                      <input type="radio" th:name="'q' + ${p4.getNumber()}" th:value="C" th:id="'q' + ${p4.getNumber()} + 'd'">
+                      <label th:for="'q' + ${p4.getNumber()} + 'c'" th:text="${p4.getOptionD()}"></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div th:if="${iterStat.index >=8  }">
+              <div class="partition">
+                <div>
+                  <audio controls  >
+                    <source th:src="${group[0].getAudio()}" type="audio/mpeg">
+                    Trình duyệt không hỗ trợ âm thanh.
+                  </audio>
+                  <div class="image-p7">
+                    <div th:each="p4:${group}">
+                    <div class="part7-image">
+                      <img th:src="${p4.getImage()}" >
+                    </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div th:each="p4:${group}">
+
+                    <div class="question" >
+                      <div class="question-number" th:text="${p4.getNumber()}"></div>
+
+                      <div class="question-text" th:text="${p4.getQuestion()}"></div>
+                      <div class="options">
+                        <div class="option" th:attr="onclick=|selectOption(${p4.getNumber()}, 'A')|" >
+                          <input type="radio" th:name="'q' + ${p4.getNumber()}" th:value="A" th:id="'q' + ${p4.getNumber()} + 'a'">
+                          <label th:for="'q' + ${p4.getNumber()} + 'a'" th:text="${p4.getOptionA()}"></label>
+                        </div>
+                        <div class="option" th:attr="onclick=|selectOption(${p4.getNumber()}, 'B')|" >
+                          <input type="radio" th:name="'q' + ${p4.getNumber()}" th:value="B" th:id="'q' + ${p4.getNumber()} + 'b'">
+                          <label th:for="'q' + ${p4.getNumber()} + 'b'" th:text="${p4.getOptionB()}"></label>
+                        </div>
+                        <div class="option" th:attr="onclick=|selectOption(${p4.getNumber()}, 'C')|" >
+                          <input type="radio" th:name="'q' + ${p4.getNumber()}" th:value="C" th:id="'q' + ${p4.getNumber()} + 'c'">
+                          <label th:for="'q' + ${p4.getNumber()} + 'c'" th:text="${p4.getOptionC()}"></label>
+                        </div>
+                        <div class="option" th:attr="onclick=|selectOption(${p4.getNumber()}, 'D')|" >
+                          <input type="radio" th:name="'q' + ${p4.getNumber()}" th:value="C" th:id="'q' + ${p4.getNumber()} + 'd'">
+                          <label th:for="'q' + ${p4.getNumber()} + 'd'" th:text="${p4.getOptionD()}"></label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Conversation 2: Questions 45-47 -->
+        </div>
+        <!-- Conversation 4: Questions 48-40 -->
+      </div>
+      <!-- Part 5 Content -->
+      <div class="part-content" id="part5">
+        <div class="part-header">
+          <h2>Part 5: Incomplete Sentences</h2>
+          <div class="part-description">Select the word or phrase that best completes each sentence.</div>
+        </div>
+
+          <div th:each="p5:${part5}">
+        <div class="question">
+          <div class="question-number" th:text="${p5.getNumber()}"></div>
+          <div class="question-text" th:text="${p5.getQuestion()}"></div>
+          <div class="options">
+            <div class="option" th:attr="onclick=|selectOption(${p5.getNumber()}, 'A')|" >
+              <input type="radio" th:name="'q' + ${p5.getNumber()}" th:value="A" th:id="'q' + ${p5.getNumber()} + 'a'">
+              <label th:for="'q' + ${p5.getNumber()} + 'a'" th:text="${p5.getOptionA()}"></label>
+            </div>
+            <div class="option" th:attr="onclick=|selectOption(${p5.getNumber()}, 'B')|" >
+              <input type="radio" th:name="'q' + ${p5.getNumber()}" th:value="B" th:id="'q' + ${p5.getNumber()} + 'b'">
+              <label th:for="'q' + ${p5.getNumber()} + 'b'" th:text="${p5.getOptionB()}"></label>
+            </div>
+            <div class="option" th:attr="onclick=|selectOption(${p5.getNumber()}, 'C')|" >
+              <input type="radio" th:name="'q' + ${p5.getNumber()}" th:value="C" th:id="'q' + ${p5.getNumber()} + 'c'">
+              <label th:for="'q' + ${p5.getNumber()} + 'c'" th:text="${p5.getOptionC()}"></label>
+            </div>
+            <div class="option" th:attr="onclick=|selectOption(${p5.getNumber()}, 'D')|" >
+              <input type="radio" th:name="'q' + ${p5.getNumber()}" th:value="C" th:id="'q' + ${p5.getNumber()} + 'd'">
+              <label th:for="'q' + ${p5.getNumber()} + 'd'" th:text="${p5.getOptionD()}"></label>
+            </div>
+          </div>
+        </div>
+          </div>
+
+      </div>
+      <div class="part-content" id="part6">
+        <div class="part-header">
+          <h2>Part 6: Reading Comprehension</h2>
+          <div class="part-description">Read the passages and answer the questions based on what is stated or implied.</div>
+        </div>
+        <div th:each="group:${questionGroups_6}">
+          <div class="part7-layout">
+            <div class="image-p7">
+            <div class="part7-image">
+              <img alt="Company Newsletter" th:src="${group[0].getImage()}">
+            </div>
+
+              </div>
+            <div>
+            <div th:each="question:${group}">
+            <div class="part7-questions">
+              <div class="part7-question question">
+                <div class="part7-question-number question-number" th:text="${question.getNumber()}"></div>
+
+                <div class="part7-options options single-column">
+                  <div class="part7-option option" th:attr="onclick=|selectOption(${question.getNumber()}, 'A')|">
+                    <input type="radio" th:name="'q' + ${question.getNumber()}" th:value="A" th:id="'q' + ${question.getNumber()} + 'a'">
+                    <label th:for="'q' + ${question.getNumber()} + 'a'" th:text="${question.getOptionA()}"></label>
+                  </div>
+
+                  <div class="part7-option option" th:attr="onclick=|selectOption(${question.getNumber()}, 'B')|">
+                    <input type="radio" th:name="'q' + ${question.getNumber()}" th:value="B" th:id="'q' + ${question.getNumber()} + 'b'">
+                    <label th:for="'q' + ${question.getNumber()} + 'b'" th:text="${question.getOptionB()}"></label>
+                  </div>
+                  <div class="part7-option option" th:attr="onclick=|selectOption(${question.getNumber()}, 'C')|">
+                    <input type="radio" th:name="'q' + ${question.getNumber()}" th:value="C" th:id="'q' + ${question.getNumber()} + 'c'">
+                    <label th:for="'q' + ${question.getNumber()} + 'c'" th:text="${question.getOptionC()}"></label>
+                  </div>
+                  <div class="part7-option option" th:attr="onclick=|selectOption(${question.getNumber()}, 'D')|">
+                    <input type="radio" th:name="'q' + ${question.getNumber()}" th:value="D" th:id="'q' + ${question.getNumber()} + 'd'">
+                    <label th:for="'q' + ${question.getNumber()} + 'd'" th:text="${question.getOptionD()}"></label>
+                  </div>
+
+                </div>
+              </div>
+
+
+
+            </div>
+          </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- Part 7 Content -->
+      <div class="part-content" id="part7">
+        <div class="part-header">
+          <h2>Part 7: Reading Comprehension</h2>
+          <div class="part-description">Read the passages and answer the questions based on what is stated or implied.</div>
+        </div>
+        <div>
+          <div th:each="group:${questionGroups_7}">
+
+        <div class="part7-layout">
+          <div class="image-p7">
+            <div th:each="image:${group}">
+          <div class="part7-image">
+            <img  th:src="${image.getImage()}">
+          </div>
+            </div>
 </div>
 
-<div class="part-navigation">
-  <button>Part 1</button>
-  <button>Part 2</button>
-  <button>Part 3</button>
-  <button>Part 4</button>
-  <button>Part 5</button>
-  <button>Part 6</button>
-  <button>Part 7</button>
-</div>
+          <div class="part7-questions">
+            <div th:each="question:${group}">
+              <div class="part7-question question">
+                <div class="part7-question-number question-number" th:text="${question.getNumber()}"></div>
+                <div class="part7-question-text" th:text="${question.getQuestion()}"></div>
+                <div class="part7-options options single-column">
+                  <div class="part7-option option" th:attr="onclick=|selectOption(${question.getNumber()}, 'A')|">
+                    <input type="radio" th:name="'q' + ${question.getNumber()}" th:value="A" th:id="'q' + ${question.getNumber()} + 'a'">
+                    <label th:for="'q' + ${question.getNumber()} + 'a'" th:text="${question.getOptionA()}"></label>
+                  </div>
 
-<!-- Question 1 -->
-<div class="question-block">
-  <img class="question-image" src="question1.jpg" alt="Question 1">
-  <div class="options">
-    <label><input type="radio" name="q1"> A.</label>
-    <label><input type="radio" name="q1"> B.</label>
-    <label><input type="radio" name="q1"> C.</label>
-    <label><input type="radio" name="q1"> D.</label>
+                  <div class="part7-option option" th:attr="onclick=|selectOption(${question.getNumber()}, 'B')|">
+                    <input type="radio" th:name="'q' + ${question.getNumber()}" th:value="B" th:id="'q' + ${question.getNumber()} + 'b'">
+                    <label th:for="'q' + ${question.getNumber()} + 'b'" th:text="${question.getOptionB()}"></label>
+                  </div>
+                  <div class="part7-option option" th:attr="onclick=|selectOption(${question.getNumber()}, 'C')|">
+                    <input type="radio" th:name="'q' + ${question.getNumber()}" th:value="C" th:id="'q' + ${question.getNumber()} + 'c'">
+                    <label th:for="'q' + ${question.getNumber()} + 'c'" th:text="${question.getOptionC()}"></label>
+                  </div>
+                  <div class="part7-option option" th:attr="onclick=|selectOption(${question.getNumber()}, 'D')|">
+                    <input type="radio" th:name="'q' + ${question.getNumber()}" th:value="D" th:id="'q' + ${question.getNumber()} + 'd'">
+                    <label th:for="'q' + ${question.getNumber()} + 'd'" th:text="${question.getOptionD()}"></label>
+                  </div>
+
+                </div>
+              </div>
+          </div>
+          </div>
+
+          </div>
+
+
+
+          </div>
+      </div>
+      </div>
+      <div class="submit-section">
+        <button class="submit-button" onclick="BackPart()">Quay lại</button>
+        <button class="submit-button" onclick="NextPart()">Tiếp theo</button>
+      </div>
+    </div>
+</div>
+  </div>
+<div class="navigation-panel">
+  <div class="nav-section">
+    <div id="time-info">Thời gian còn lại: 116:12</div>
+    <div class="submit-nav" onclick="submitTest()">NỘP BÀI</div>
+    <div class="submit-nav" id="back-btn" style="display:none;" onclick="history.go(-1)">QUAY LẠI TRANG ĐỀ THI</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-title" style="display: contents">📝 Phần thi đã làm / Tổng số câu hỏi: <span id="sum_current-question"></span>/<span id="total_question"></span></div>
+    <div class="nav-title">🎯 Theo dấu các câu hỏi</div>
+  </div>
+
+  <div class="nav-section" id="nav-part1">
+    <div class="nav-title">Part 1</div>
+    <div class="question-grid">
+      <div th:each="i : ${#numbers.sequence(1, 6)}"
+           class="nav-question-number"
+           th:onclick="'goToQuestion(' + ${i} + ',1)'"
+           th:text="${i}"></div>
+    </div>
+  </div>
+
+  <div class="nav-section" id="nav-part2">
+    <div class="nav-title">Part 2</div>
+    <div class="question-grid">
+      <div th:each="i : ${#numbers.sequence(7, 31)}"
+           class="nav-question-number"
+           th:onclick="'goToQuestion(' + ${i} + ',2)'"
+           th:text="${i}"></div>
+    </div>
+  </div>
+  <div class="nav-section" id="nav-part3">
+    <div class="nav-title">Part 3</div>
+    <div class="question-grid">
+      <div th:each="i : ${#numbers.sequence(32, 70)}"
+           class="nav-question-number"
+           th:onclick="'goToQuestion(' + ${i} + ',3)'"
+           th:text="${i}"></div>
+    </div>
+  </div>
+  <div class="nav-section" id="nav-part4">
+    <div class="nav-title">Part 4</div>
+    <div class="question-grid">
+      <div th:each="i : ${#numbers.sequence(71, 100)}"
+           class="nav-question-number"
+           th:onclick="'goToQuestion(' + ${i} + ',4)'"
+           th:text="${i}"></div>
+    </div>
+  </div>
+  <div class="nav-section" id="nav-part5">
+    <div class="nav-title">Part 5</div>
+    <div class="question-grid">
+      <div th:each="i : ${#numbers.sequence(101, 130)}"
+           class="nav-question-number"
+           th:onclick="'goToQuestion(' + ${i} + ',5)'"
+           th:text="${i}"></div>
+    </div>
+  </div>
+  <div class="nav-section" id="nav-part6">
+    <div class="nav-title">Part 6</div>
+    <div class="question-grid">
+      <div th:each="i : ${#numbers.sequence(131, 146)}"
+           class="nav-question-number"
+           th:onclick="'goToQuestion(' + ${i} + ',6)'"
+           th:text="${i}"></div>
+    </div>
+  </div>
+  <input type="hidden" id="backendParts" th:value="${part}">
+  <input type="hidden" id="backendTime" th:value="${timeLimit}">
+
+  <div class="nav-section" id="nav-part7">
+    <div class="nav-title">Part 7</div>
+    <div class="question-grid">
+      <div th:each="i : ${#numbers.sequence(147, 200)}"
+           class="nav-question-number"
+           th:onclick="'goToQuestion(' + ${i} + ',7)'"
+           th:text="${i}"></div>
+    </div>
+  </div>
+</div>
+<div id="resultPopup" class="popup-overlay">
+  <div class="popup-container">
+    <button class="close-btn" onclick="closePopup()">&times;</button>
+
+    <div class="popup-header">
+      <h2 class="popup-title">🎉 Kết Quả Bài Thi</h2>
+      <p class="popup-subtitle">TOEIC Practice Test</p>
+    </div>
+
+    <div class="popup-content">
+      <!-- Tổng điểm -->
+      <div class="total-score">
+        <p class="total-score-number" id="totalScore">0</p>
+        <p class="total-score-label">TỔNG ĐIỂM</p>
+      </div>
+
+      <!-- Điểm từng part -->
+      <div class="parts-grid" id="partsGrid">
+        <!-- Parts sẽ được tạo động bằng JS -->
+      </div>
+    </div>
+
+    <div class="popup-buttons">
+      <button class="btn btn-primary" onclick="history.go(-1)">Quay lại trang đề thi</button>
+      <button class="btn btn-secondary" onclick="closePopup()">Đóng</button>
+    </div>
   </div>
 </div>
 
-<!-- Question 2 -->
-<div class="question-block">
-  <img class="question-image" src="question2.jpg" alt="Question 2">
-  <div class="options">
-    <label><input type="radio" name="q2"> A.</label>
-    <label><input type="radio" name="q2"> B.</label>
-    <label><input type="radio" name="q2"> C.</label>
-    <label><input type="radio" name="q2"> D.</label>
-  </div>
-</div>
 
-<!-- Question 3 -->
-<div class="question-block">
-  <img class="question-image" src="question3.jpg" alt="Question 3">
-  <div class="options">
-    <label><input type="radio" name="q3"> A.</label>
-    <label><input type="radio" name="q3"> B.</label>
-    <label><input type="radio" name="q3"> C.</label>
-    <label><input type="radio" name="q3"> D.</label>
-  </div>
-</div>
-
-<!-- Question 4 -->
-<div class="question-block">
-  <img class="question-image" src="question4.jpg" alt="Question 4">
-  <div class="options">
-    <label><input type="radio" name="q4"> A.</label>
-    <label><input type="radio" name="q4"> B.</label>
-    <label><input type="radio" name="q4"> C.</label>
-    <label><input type="radio" name="q4"> D.</label>
-  </div>
-</div>
+<script src="../../js/practice.js"></script>
 </body>
 </html>

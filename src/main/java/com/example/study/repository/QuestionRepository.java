@@ -1,15 +1,16 @@
 package com.example.study.repository;
 
+import com.example.study.Entity.Exam;
 import com.example.study.Entity.Question;
-import jakarta.persistence.Id;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
+  List<Question> findAllByPart(int part);
 
-    List<Question> findAllByExam_ID(Integer exam_id);
+  List<Question> findAllByExam_ID(Integer exam_id);
+
+  Question findAllByNumberAndPartAndExam(int number, int part, Exam exam);
 }
-

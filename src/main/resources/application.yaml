@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: ${DBMS_CONNECTION:jdbc:mysql://localhost:3306/study}
+    url: jdbc:mysql://root:WWyLeQgCcuTzLhVqNurWwizbApnvnhgF@interchange.proxy.rlwy.net:39544/study
     driverClassName: "com.mysql.cj.jdbc.Driver"
-    password: ${DBMS_USERNAME:root}
-    username: ${DBMS_PASSWORD:root}
+    password: WWyLeQgCcuTzLhVqNurWwizbApnvnhgF
+    username: root
   jpa:
     hibernate:
       ddl-auto: update  

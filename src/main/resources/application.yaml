@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://root:WWyLeQgCcuTzLhVqNurWwizbApnvnhgF@interchange.proxy.rlwy.net:39544/study
+    url: jdbc:mysql://interchange.proxy.rlwy.net:39544/study
     driverClassName: "com.mysql.cj.jdbc.Driver"
     password: WWyLeQgCcuTzLhVqNurWwizbApnvnhgF
     username: root

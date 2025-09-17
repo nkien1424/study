@@ -1,10 +1,185 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study4 - Luyện đề Online</title>
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <style>
+        body {font-family: Arial, sans-serif; margin:0; padding:0; background:#fff; color:#222;}
+        .home-section {padding: 40px 0;}
+        .home-h2 {font-size: 24px; font-weight: bold; margin-bottom: 20px;}
+        .home-h3 {font-size: 20px; font-weight: bold; margin-bottom: 15px;}
+        .container {width:90%; max-width:1200px; margin:auto;}
+        .sky-bg {background:#f5f9ff;}
+        .gray-bg {background:#f7f7f7;}
+
+        /* Course cards */
+        .courses-grid-item {border:1px solid #ddd; border-radius:10px; overflow:hidden; margin-bottom:20px; background:#fff;}
+        .courses-grid-item-image img {width:100%; display:block;}
+        .courses-grid-item-title {font-size:16px; font-weight:bold; margin:10px;}
+        .courses-grid-item-stars {margin:10px; color:#f39c12; font-size:14px;}
+        .course-prices {margin:10px; font-size:16px;}
+        .course-price {font-weight:bold; color:#007bff;}
+        .course-listing-price {text-decoration:line-through; color:#888;}
+        .badge-danger {background:#e74c3c; color:#fff; padding:3px 6px; border-radius:4px;}
+
+        /* Test cards */
+        .testitem-wrapper {border-radius:10px; padding:15px; margin-bottom:20px;}
+        .testitem-title {font-size:16px; font-weight:bold; margin-bottom:10px;}
+        .testitem-info {font-size:14px; color:#555;}
+        .tag {background:#eef3ff; color:#333; padding:3px 8px; border-radius:5px; font-size:13px; margin-right:5px;}
+
+        /* Form */
+        .contentblock {background:#fff; border-radius:10px; padding:20px; box-shadow:0 2px 5px rgba(0,0,0,0.1);}
+        .form-group {margin-bottom:15px;}
+        .form-control, select {width:100%; padding:10px; border:1px solid #ccc; border-radius:5px;}
+        .btn {display:inline-block; padding:10px 15px; border:none; border-radius:5px; cursor:pointer;}
+        .btn-primary {background:#007bff; color:#fff;}
+        .btn-outline-primary {border:1px solid #007bff; color:#007bff; background:#fff;}
+        .btn-block {width:100%;}
+    </style>
 </head>
 <body>
 
+<div class='site-content-wrapper'>
+
+    <!-- Banner -->
+    <div class='home-section pt-0'>
+        <div class="swiper-container top-banners">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="https://study4.com/media/home/HomeBanner/files/2024/12/27/luyen_%C4%91e.webp" style="width:100%;">
+                </div>
+                <div class="swiper-slide">
+                    <img src="https://study4.com/media/home/HomeBanner/files/2024/12/27/phan_mem.webp" style="width:100%;">
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
+
+    <!-- Khóa học online nổi bật -->
+    <div class='home-section'>
+        <div class='container'>
+            <h2 class='home-h2'>Khóa học online nổi bật</h2>
+            <div class="swiper-container home-courses">
+                <div class="swiper-wrapper">
+                    <!-- Item 1 -->
+                    <div class='swiper-slide'>
+                        <div class='courses-grid-item'>
+                            <div class='courses-grid-item-image'>
+                                <img src='https://study4.com/media/courses/Course/files/2025/08/11/toeic_1_1.webp'/>
+                            </div>
+                            <div class='courses-grid-item-title'>[Complete TOEIC] Chiến lược làm bài...</div>
+                            <div class='courses-grid-item-stars'><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> (260) 36,603 Học viên</div>
+                            <div class='course-prices'>
+                                <span class='course-price'>989.000đ</span>
+                                <span class='course-listing-price'>1.800.000đ</span>
+                                <span class='badge-danger'>-45%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Có thể copy thêm các khóa học khác ở đây -->
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tư vấn lộ trình học -->
+    <div class='home-section sky-bg'>
+        <div class='container'>
+            <div class="row">
+                <div class="col-12 col-md-8">
+                    <p>Các phần mềm luyện thi IELTS, TOEIC, HSK online chất lượng cao...</p>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="contentblock">
+                        <h2 class='home-h3'>Tư vấn lộ trình học</h2>
+                        <form>
+                            <div class='form-group'><input class='form-control' type='text' placeholder="Họ tên*"></div>
+                            <div class='form-group'><input class='form-control' type='text' placeholder="Số điện thoại*"></div>
+                            <div class='form-group'><input class='form-control' type='text' placeholder="Khu vực học*"></div>
+                            <div class='form-group'>
+                                <select class="form-control">
+                                    <option>Môn học bạn quan tâm</option>
+                                    <option>TOEIC</option>
+                                    <option>IELTS Academic</option>
+                                    <option>HSK</option>
+                                </select>
+                            </div>
+                            <button class='btn btn-primary btn-block'>Đăng ký tư vấn miễn phí</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Đề thi mới nhất -->
+    <div class='home-section'>
+        <div class='container'>
+            <h2 class='home-h2'>Đề thi mới nhất</h2>
+            <div class='row'>
+                <div class='col-6 col-md-3'>
+                    <div class='testitem-wrapper gray-bg'>
+                        <h2 class='testitem-title'>IELTS Practice Set 3 Listening test 1</h2>
+                        <div class='testitem-info'>40 phút | 218175 | 469</div>
+                        <div class='testitem-info'>4 phần thi | 40 câu hỏi</div>
+                        <div class='testitem-tags mt-2'><span class='tag'>IELTS Academic</span><span class='tag'>Listening</span></div>
+                        <div class='testitem-start-test'><button class='btn btn-outline-primary btn-block'>Chi tiết</button></div>
+                    </div>
+                </div>
+                <!-- copy thêm các test khác -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Đăng ký khóa học -->
+    <div class='home-section' style="background:#333 url('https://study4.com/static/img/students.jpg') center/cover no-repeat;">
+        <div class='container'>
+            <h2 class='home-h2' style="color:#fff;">Đăng ký thông tin khoá học</h2>
+            <div class='contentblock'>
+                <form>
+                    <div class='form-group'><input class='form-control' type='text' placeholder="Họ tên*"></div>
+                    <div class='form-group'><input class='form-control' type='text' placeholder="Số điện thoại*"></div>
+                    <div class='form-group'><input class='form-control' type='text' placeholder="Khu vực học*"></div>
+                    <div class='form-group'>
+                        <select class="form-control">
+                            <option>Môn học bạn quan tâm</option>
+                            <option>TOEIC</option>
+                            <option>IELTS Academic</option>
+                            <option>HSK</option>
+                        </select>
+                    </div>
+                    <button class='btn btn-primary btn-block'>Đăng ký tư vấn miễn phí</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    new Swiper(".top-banners", {
+        pagination: {el: ".swiper-pagination"},
+        navigation: {nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev"}
+    });
+    new Swiper(".home-courses", {
+        slidesPerView: 1,
+        breakpoints: {768:{slidesPerView:3}},
+        pagination: {el: ".swiper-pagination"},
+    });
+</script>
 </body>
 </html>

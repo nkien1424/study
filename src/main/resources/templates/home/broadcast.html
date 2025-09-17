@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="vi"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study4 - Luyện đề Online</title>
+    <link rel="stylesheet" type="text/css" href="/css/layout.css">
+    <link rel="stylesheet" type="text/css" href="/css/broadcard.css">
+    <link rel="stylesheet" type="text/css" href="/css/Main-blog.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<body>
+<div th:replace="~{layout::header}"></div>
+<div class='site-content-wrapper' style="margin-bottom: 30px">
+
+    <!-- Banner -->
+    <div class='home-section pt-0'>
+        <div class="swiper-container top-banners">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="https://study4.com/media/home/HomeBanner/files/2024/12/27/luyen_%C4%91e.webp" style="width:100%;">
+                </div>
+<!--                <div class="swiper-slide">-->
+<!--                    <img src="https://study4.com/media/home/HomeBanner/files/2024/12/27/phan_mem.webp" style="width:100%;">-->
+<!--                </div>-->
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- Đề thi mới nhất -->
+    <div class='home-section'>
+        <div class="container">
+            <h2 class="home-h2">Đề thi mới nhất</h2>
+            <div class="exam-list" style="display: flex">
+                <div class="exam-card" th:each="exam,i : ${exams}" th:if="${i.index} < 4" th:data-id="${exam.getID()}"  >
+                    <h3 th:text="${exam.getName()} "></h3>
+                    <p>⏱ 120 phút | 👥 101 | 💬 15</p>
+                    <p th:value="${user_google}" >7 phần thi | 200 câu hỏi</p>
+                    <div class="tags">
+                        <span class="tag">#Toiec </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- Flashcard Section -->
+    <section class="flashcard-section" style="margin-left: 180px;
+             background-color: #d7faf5;
+             width: 76%;
+             border-radius: 15px;
+             display: flex;"
+             >
+        <h2>💡 Luyện tập Flashcard</h2>
+
+        <div class="flashcard" style="margin-left: 100px">
+            <img src="/images/flashcard1.PNG" alt="Flashcard Demo">
+        </div>
+    </section>
+
+    <!-- Đăng ký khóa học -->
+    <section class="news-section">
+        <h2 class="title">Tin tức</h2>
+        <div class="blog-grid" id="blogGrid">
+            <div th:each="post,i : ${blogs}" th:if="${i.index} < 3" class="blog-card" th:data-id="${post.getId()}" th:attr="data-category=${post.getType()}">
+                <div class="blog-image">
+                    <div class="difficulty-badge difficulty-[[${post.type == 0 ? 'beginner' : post.type == 1 ? 'intermediate' : 'advanced'}]]">
+                        <span th:if="${post.getType() == 0}">Cơ Bản</span>
+                        <span th:elseif="${post.getType() == 1}">Trung Bình</span>
+                        <span th:else>Nâng Cao</span>
+                    </div>
+                    <img th:src="${post.getImage()}" >
+                    <!-- nếu có icon -->
+                </div>
+                <div class="blog-content">
+                    <div class="blog-category"
+                         th:text="${post.getType() == 0} ? 'TOEIC' : (${post.getType() == 1} ? 'Toiec' : 'Vocab')">
+                    </div>
+
+                    <h3 class="blog-title"  th:text="${post.getTitle()}"></h3>
+                    <p class="blog-excerpt" th:text="${post.getDescription()}"></p>
+                    <div class="blog-meta">
+                        <div class="blog-author">
+                            <div class="author-avatar" th:text="${#strings.substring(post.getAuthor(), post.getAuthor().length()-1)}"></div>
+                            <span th:text="${post.getAuthor()}"></span>
+                        </div>
+                        <span th:text="${#temporals.format(post.getPost_time(), 'dd/MM/yyyy')}"></span>
+                    </div>
+                    <div class="blog-meta">
+                        <span>⏱️ 10 phút</span> <!-- nếu không có d liệu thời gian đọc -->
+                        <span>👁️ 1000 lượt xem</span> <!-- nếu không có dữ liệu lượt xem -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Indicator -->
+        <div class="indicator">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+        </div>
+    </section>
+
+
+    <!-- Đăng ký tư vấn -->
+    <section class="register-section">
+        <div class="register-container">
+            <!-- Countdown -->
+            <div class="countdown-container">
+                <p>Liên hệ với chúng tôi để được tư vấn về khóa học!</p>
+                <div class="countdown">
+                    <div class="time-box"><span id="days">00</span><br>Ngày</div>
+                    <div class="time-box"><span id="hours">00</span><br>Giờ</div>
+                    <div class="time-box"><span id="minutes">00</span><br>Phút</div>
+                    <div class="time-box"><span id="seconds">00</span><br>Giây</div>
+                </div>
+            </div>
+
+
+            <!-- Form -->
+            <div class="register-form">
+                <h3>Đăng ký tư vấn</h3>
+                <form id="register-form-2">
+                    <input id="email" type="email" placeholder="Địa chỉ email">
+                    <input id = "phone" type="text" placeholder="Số điện thoại *">
+                    <select id="location">
+                        <option>Địa điểm</option>
+                        <option>Hà Nội</option>
+                        <option>Đà Nẵng</option>
+                        <option>Hồ Chí Minh</option>
+                    </select>
+                    <select  id="course">
+                        <option value="" disabled selected>Chọn khóa học </option>
+                        <option>TOIEC</option>
+                        <option>IELTS</option>
+
+                    </select>
+                    <button  type="submit">Gửi đi</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+</div>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    new Swiper(".top-banners", {
+        pagination: {el: ".swiper-pagination"},
+        navigation: {nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev"}
+    });
+    new Swiper(".home-courses", {
+        slidesPerView: 1,
+        breakpoints: {768:{slidesPerView:3}},
+        pagination: {el: ".swiper-pagination"},
+    });
+    document.querySelectorAll('.blog-card').forEach(card => {
+        card.addEventListener('click', function () {
+            const blogId = this.getAttribute('data-id');
+            if (blogId) {
+                window.location.href = `/blog` ;
+            }
+        });
+    });
+    document.querySelectorAll('.exam-card').forEach(card => {
+        card.addEventListener('click', function() {
+            const examId = this.getAttribute('data-id');
+            if (examId) {
+                window.location.href = `/home`;
+            }
+        });
+    });
+    document.getElementById("register-form-2").addEventListener("submit", function(e) {
+        e.preventDefault(); // ❌ chặn reload và thay đổi URL
+        // Lấy giá trị
+
+        const email = document.getElementById("email").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const location = document.getElementById("location").value;
+        const course = document.getElementById("course").value.trim();
+
+        // Kiểm tra
+        if (!email || !phone || !location || !course) {
+            Swal.fire({
+                icon: 'warning',
+                title: '⚠️ Thiếu thông tin',
+                text: 'Vui lòng nhập đầy đủ thông tin trước khi gửi!'
+            });
+            return;
+        }
+        // 👉 gọi ajax / fetch / hoặc chỉ show Swal
+        Swal.fire({
+            title: '🎊 Chúc mừng!',
+            html: '<b>Bạn đã đăng ký tư vấn thành công!</b><br>Chúng tôi sẽ liên hệ trong vòng 24h.',
+            icon: 'success',
+            timer: 3000,
+            showConfirmButton: false
+        });
+    });
+    // Thời gian kết thúc (ví dụ sau 2h nữa)
+    const endTime = new Date().getTime() + (2 * 60 * 60 * 1000);
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = endTime - now;
+
+        if (distance <= 0) {
+            document.querySelector(".countdown").innerHTML = "<h3>⏰ Hết thời gian!</h3>";
+            clearInterval(timer);
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("days").innerText = String(days).padStart(2, '0');
+        document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+        document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+        document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
+    }
+
+    const timer = setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+</script>
+
+<div th:replace="~{layout::footer}"></div>
+</body>
+</html>

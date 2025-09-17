@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Tiếng Anh - EnglishMaster</title>
+    <link rel="stylesheet" type="text/css" href="/css/Main-blog.css">
+    <link rel="stylesheet" type="text/css" href="/css/layout.css">
+</head>
+<body>
+<!-- Header -->
+<div th:replace="~{layout::header}"></div>
+<div layout:fragment="content">
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>📚 Blog Tiếng Anh</h1>
+        <p class="hero-subtitle">Khám phá kho tàng kiến thức tiếng Anh với hàng trăm bài viết chất lượng từ các chuyên gia</p>
+
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Tìm kiếm bài viết..." id="searchInput">
+            <button class="search-btn" onclick="searchBlogs()">🔍</button>
+        </div>
+    </div>
+</section>
+
+<!-- Main Container -->
+<div class="container">
+    <!-- Stats Section -->
+
+
+    <!-- Filter Tabs -->
+
+
+    <!-- Blog Grid -->
+    <div class="blog-grid" id="blogGrid">
+        <div th:each="post : ${blogs}" class="blog-card" th:data-id="${post.getId()}" th:attr="data-category=${post.getType()}">
+            <div class="blog-image">
+                <div class="difficulty-badge difficulty-[[${post.type == 0 ? 'beginner' : post.type == 1 ? 'intermediate' : 'advanced'}]]">
+                    <span th:if="${post.getType() == 0}">Cơ Bản</span>
+                    <span th:elseif="${post.getType() == 1}">Trung Bình</span>
+                    <span th:else>Nâng Cao</span>
+                </div>
+                <img th:src="${post.getImage()}" >
+                 <!-- nếu có icon -->
+            </div>
+            <div class="blog-content">
+                <div class="blog-category"
+                     th:text="${post.getType() == 0} ? 'TOEIC' : (${post.getType() == 1} ? 'Toiec' : 'Vocab')">
+                </div>
+
+                <h3 class="blog-title"  th:text="${post.getTitle()}"></h3>
+                <p class="blog-excerpt" th:text="${post.getDescription()}"></p>
+                <div class="blog-meta">
+                    <div class="blog-author">
+                        <div class="author-avatar" th:text="${#strings.substring(post.getAuthor(), post.getAuthor().length()-1)}"></div>
+                        <span th:text="${post.getAuthor()}"></span>
+                    </div>
+                    <span th:text="${#temporals.format(post.getPost_time(), 'dd/MM/yyyy')}"></span>
+                </div>
+                <div class="blog-meta">
+                    <span>⏱️ 10 phút</span> <!-- nếu không có d liệu thời gian đọc -->
+                    <span>👁️ 1000 lượt xem</span> <!-- nếu không có dữ liệu lượt xem -->
+                </div>
+                <button class="read-more-btn" th:onclick="'location.href=\'/blog?'+'blogId=1'+'\''">
+                    Đọc Tiếp →
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Loading -->
+<!--    <div class="loading" id="loading">-->
+<!--        <div class="spinner"></div>ữ-->
+<!--        <p>Đang tải bài viết...</p>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Pagination &ndash;&gt;-->
+<!--    <div class="pagination" id="pagination">-->
+<!--        <button class="page-btn" onclick="changePage(1)">« Đầu</button>-->
+<!--        <button class="page-btn active" onclick="changePage(1)">1</button>-->
+<!--        <button class="page-btn" onclick="changePage(2)">2</button>-->
+<!--        <button class="page-btn" onclick="changePage(3)">3</button>-->
+<!--        <button class="page-btn" onclick="changePage(4)">4</button>-->
+<!--        <button class="page-btn" onclick="changePage(5)">5</button>-->
+<!--        <button class="page-btn" onclick="changePage(5)">Cuối »</button>-->
+<!--    </div>-->
+
+    <!-- Newsletter -->
+    <div class="newsletter">
+        <h2>📧 Đăng Ký Nhận Bài Viết Mới</h2>
+        <p>Nhận thông báo về những bài viết mới nhất và tips học tiếng Anh hiệu quả</p>
+        <div class="newsletter-form">
+            <input type="email" class="newsletter-input" placeholder="Email của bạn...">
+            <button class="newsletter-btn">Đăng Ký</button>
+        </div>
+    </div>
+</div>
+</div>
+<!-- Footer -->
+<div th:replace="~{layout::footer}"></div>
+<script src="/js/blog.js"></script>
+</body>
+</html>
+

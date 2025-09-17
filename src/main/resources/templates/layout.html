@@ -13,16 +13,16 @@
 <body>
 <!-- Header -->
 <div th:fragment="header" class="header">
-    <div class="logo" th:onclick="'window.location.href=\'' + @{/home} + '\''" style="cursor: pointer;">
-        STUDY4
+    <div class="logo" th:onclick="'window.location.href=\'' + @{/} + '\''" style="cursor: pointer;">
+        <img src="/images/study4_logo.webp" alt="STUDY4 Logo" style="width: 150px;">
     </div>
     <script src="../js/exam_detail.js"></script>
     <nav>
-        <a href="#">Giới thiệu</a>
-        <a href="#">Chương trình học</a>
-        <a href="#">Đề thi online</a>
-        <a href="#">Flashcards</a>
-        <a href="#">Blog</a>
+
+        <a href="#" onclick="thongbao()">Chương trình học</a>
+        <a href="/home">Đề thi online</a>
+        <a href="/vocabulary">Flashcards</a>
+        <a href="/blog">Blog</a>
         <div id="auth-section">
             <a th:href="@{/home/log_in}" style="padding: 2px;color: #fff;" class="btn-login">Đăng nhập</a>
         </div>
@@ -76,6 +76,18 @@
 </body>
 </html>
 <script>
+   function thongbao() {
+
+       // Ngăn hành vi mặc định của thẻ <a>
+       Swal.fire({
+           icon: 'info',
+           title: '🚧 Đang phát triển',
+           text: 'Tính năng này sẽ sớm ra mắt!',
+           showConfirmButton: false,
+           timer: 2000,
+           timerProgressBar: true
+       });
+   }
     function parseJwt(token) {
         try {
             const base64Url = token.split('.')[1];
@@ -114,6 +126,7 @@
             });
         });
         if (token) {
+            document.getElementById('hint').style.display="none";
             const userData = parseJwt(token);
             if (userData?.sub) {
                 authSection.innerHTML = `
@@ -126,7 +139,7 @@
                             <a href="/notifications">Xem tất cả >></a>
                         </div>
                         <hr>
-                        <a href="/schedule">Lịch học của tôi</a>
+                        <a href="#">Lịch học của tôi</a>
                         <a href="/user/profile">Trang cá nhân</a>
                         <a href="/user/logout" id="logoutBtn">Đăng xuất</a>
                     </div>
@@ -149,6 +162,7 @@
                             credentials: 'include'
                         }).then(res => {
                             if (res.ok) {
+                                localStorage.removeItem("access_token")
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Đăng xuất thành công',
@@ -169,6 +183,9 @@
                     });
                 }, 0);
             }
+        }else{
+            document.getElementById('hint').style.display="block";
         }
+
     });
 </script>

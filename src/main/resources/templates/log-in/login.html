@@ -28,13 +28,26 @@
     <div class="text-center mt-3">
         <p>Bạn chưa có tài khoản? <a th:href="@{/user/createUser}">Đăng ký ngay</a></p>
         <p>Hoặc</p>
-        <a th:href="@{/oauth2/authorization/google}" style  class="btn btn-outline-danger btn-block">Đăng nhập bằng Google</a>
+        <a th:onclick="thongbao1()" style  class="btn btn-outline-danger btn-block">Đăng nhập bằng Google</a>
+<!--        <a th:href="@{/oauth2/authorization/google}" style  class="btn btn-outline-danger btn-block">Đăng nhập bằng Google</a>-->
     </div>
 </div>
 <div th:replace="~{layout::footer}"></div>
 </body>
 </html>
 <script>
+    function thongbao1() {
+
+        // Ngăn hành vi mặc định của thẻ <a>
+        Swal.fire({
+            icon: 'info',
+            title: '😄 Đang tạm hoãn',
+            text: 'Hiện tại do chưa có tên miền vì mình chưa đủ kinh phí !!',
+            showConfirmButton: false,
+            timer: 8000,
+            timerProgressBar: true
+        });
+    }
     document.addEventListener("DOMContentLoaded", function() {
         // Xử lý thông báo lỗi/ thành công (giữ nguyên)
         const errorMessage = "[[${error}]]";

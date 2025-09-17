@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOEIC Flashcard System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/vocabulary.css">
+    <link rel="stylesheet" type="text/css" href="/css/layout.css">
+</head>
+<body>
+<div th:replace="~{layout::header}"></div>
+<div layout:fragment="content" class="container-fluid">
+    <div class="main-container">
+        <!-- Header -->
+        <div class="text-center mb-4">
+            <h1 class="display-4 text-primary fw-bold">
+                <i class="fas fa-graduation-cap"></i>
+                TOEIC Flashcard System
+            </h1>
+            <p class="lead text-muted">Hệ thống học từ vựng thông minh cho TOEIC</p>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <ul class="nav nav-tabs" id="mainTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="topics-tab" data-bs-toggle="tab" data-bs-target="#topics" type="button" role="tab">
+                    <i class="fas fa-folder"></i> Chủ đề
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="vocabulary-tab" data-bs-toggle="tab" data-bs-target="#vocabulary" type="button" role="tab">
+                    <i class="fas fa-book"></i> Quản lý từ vựng
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="practice-tab" data-bs-toggle="tab" data-bs-target="#practice" type="button" role="tab">
+                    <i class="fas fa-dumbbell"></i> Luyện tập
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="matching-tab" data-bs-toggle="tab" data-bs-target="#matching" type="button" role="tab">
+                    <i class="fas fa-gamepad"></i> Ghép thẻ
+                </button>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="mainTabContent">
+            <!-- Topics Tab -->
+            <div class="tab-pane fade show active" id="topics" role="tabpanel">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3><i class="fas fa-folder-open text-primary"></i> Danh sách chủ đề</h3>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTopicModal">
+                        <i class="fas fa-plus"></i> Thêm chủ đề
+                    </button>
+                </div>
+
+                <div id="topicsList">
+                    <!-- Sample topics -->
+                    <div class="topic-card" data-topic-id="1">
+                        <div class="topic-header">
+                            <h4 class="topic-title">Business & Work</h4>
+                            <span class="vocab-count">45 từ</span>
+                        </div>
+                        <p class="text-muted mb-3">Từ vựng về công việc và kinh doanh trong TOEIC</p>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-primary btn-sm" onclick="selectTopic(1, 'Business & Work')">
+                                <i class="fas fa-book-open"></i> Quản lý từ
+                            </button>
+                            <button class="btn btn-success btn-sm" onclick="startPractice(1)">
+                                <i class="fas fa-play"></i> Luyện tập
+                            </button>
+                            <button class="btn btn-warning btn-sm" onclick="startMatching(1)">
+                                <i class="fas fa-puzzle-piece"></i> Ghép thẻ
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic-id="2">
+                        <div class="topic-header">
+                            <h4 class="topic-title">Travel & Transportation</h4>
+                            <span class="vocab-count">38 từ</span>
+                        </div>
+                        <p class="text-muted mb-3">Từ vựng về du lịch và phương tiện giao thông</p>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-primary btn-sm" onclick="selectTopic(2, 'Travel & Transportation')">
+                                <i class="fas fa-book-open"></i> Quản lý từ
+                            </button>
+                            <button class="btn btn-success btn-sm" onclick="startPractice(2)">
+                                <i class="fas fa-play"></i> Luyện tập
+                            </button>
+                            <button class="btn btn-warning btn-sm" onclick="startMatching(2)">
+                                <i class="fas fa-puzzle-piece"></i> Ghép thẻ
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="topic-card" data-topic-id="3">
+                        <div class="topic-header">
+                            <h4 class="topic-title">Health & Medicine</h4>
+                            <span class="vocab-count">52 từ</span>
+                        </div>
+                        <p class="text-muted mb-3">Từ vựng về sức khỏe và y tế</p>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-primary btn-sm" onclick="selectTopic(3, 'Health & Medicine')">
+                                <i class="fas fa-book-open"></i> Quản lý từ
+                            </button>
+                            <button class="btn btn-success btn-sm" onclick="startPractice(3)">
+                                <i class="fas fa-play"></i> Luyện tập
+                            </button>
+                            <button class="btn btn-warning btn-sm" onclick="startMatching(3)">
+                                <i class="fas fa-puzzle-piece"></i> Ghép thẻ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vocabulary Management Tab -->
+            <div class="tab-pane fade" id="vocabulary" role="tabpanel">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3><i class="fas fa-book text-primary"></i> Quản lý từ vựng</h3>
+                    <div id="selectedTopicInfo" class="text-muted">
+                        Chọn một chủ đề để bắt đầu
+                    </div>
+                </div>
+
+                <div id="vocabularyContent" style="display: none;">
+                    <!-- Add Vocabulary Form -->
+                    <div class="vocab-form">
+                        <h5 class="mb-3"><i class="fas fa-plus-circle text-success"></i> Thêm từ vựng mới</h5>
+                        <form id="addVocabForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Từ tiếng Anh</label>
+                                    <div class="position-relative">
+                                        <input type="text" class="form-control" id="englishWordInput"
+                                               placeholder="Nhập từ tiếng Anh..." autocomplete="off">
+                                        <div class="suggestions-dropdown" id="suggestions"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Phiên âm (tùy chọn)</label>
+                                    <input type="text" class="form-control" id="pronunciationInput"
+                                           placeholder="/prəˌnʌnsiˈeɪʃən/">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Nghĩa tiếng Việt</label>
+                                <textarea class="form-control" id="vietnameseMeaning" rows="3"
+                                          placeholder="Nhập nghĩa tiếng Việt..."></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Câu ví dụ (tùy chọn)</label>
+                                <textarea class="form-control" id="exampleSentence" rows="2"
+                                          placeholder="Nhập câu ví dụ..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Lưu từ vựng
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Search Box -->
+                    <div class="mb-4">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            <input type="text" class="form-control" id="searchInput"
+                                   placeholder="Tìm kiếm từ vựng...">
+                        </div>
+                    </div>
+
+                    <!-- Vocabulary List -->
+                    <div id="vocabularyList">
+                        <!-- Sample vocabulary items -->
+                    </div>
+                </div>
+
+                <div id="noTopicSelected" class="text-center py-5">
+                    <i class="fas fa-folder-open fa-5x text-muted mb-3"></i>
+                    <h4 class="text-muted">Chưa chọn chủ đề</h4>
+                    <p class="text-muted">Vui lòng chọn một chủ đề từ tab "Chủ đề" để bắt đầu quản lý từ vựng</p>
+                </div>
+            </div>
+
+            <!-- Practice Tab -->
+            <div class="tab-pane fade" id="practice" role="tabpanel">
+                <div class="text-center mb-4">
+                    <h3><i class="fas fa-dumbbell text-primary"></i> Luyện tập Flashcard</h3>
+                </div>
+
+                <div id="practiceContent" style="display: none;">
+                    <!-- Practice Controls -->
+                    <div class="text-center mb-4">
+                        <div class="d-inline-flex gap-3 align-items-center">
+                            <div class="score-item">
+                                <strong>Chủ đề:</strong> <span id="practiceTopicName">-</span>
+                            </div>
+                            <div class="score-item">
+                                <strong>Tiến độ:</strong> <span id="practiceProgress">0/0</span>
+                            </div>
+                            <div class="score-item">
+                                <strong>Chế độ:</strong> <span id="practiceMode">Anh → Việt</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="progress-container">
+                        <div class="progress-bar-custom" id="progressBar" style="width: 0%">0%</div>
+                    </div>
+
+                    <!-- Flashcard -->
+                    <div class="flashcard-container">
+                        <div class="flashcard" id="flashcard" onclick="flipCard()">
+                            <div class="flashcard-face flashcard-front">
+                                <div id="frontText">Nhấn "Bắt đầu" để luyện tập</div>
+                            </div>
+                            <div class="flashcard-face flashcard-back">
+                                <div id="backText">Nghĩa tiếng Việt</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Controls -->
+                    <div class="flashcard-controls">
+                        <button class="control-btn" id="startBtn" onclick="startPracticeSession()">
+                            <i class="fas fa-play"></i> Bắt đầu
+                        </button>
+                        <button class="control-btn secondary" id="flipBtn" onclick="flipCard()" style="display: none;">
+                            <i class="fas fa-sync-alt"></i> Lật thẻ
+                        </button>
+                        <button class="control-btn" id="nextBtn" onclick="nextCard()" style="display: none;">
+                            <i class="fas fa-arrow-right"></i> Tiếp theo
+                        </button>
+                        <button class="control-btn secondary" id="modeBtn" onclick="toggleMode()" style="display: none;">
+                            <i class="fas fa-exchange-alt"></i> Đổi chế độ
+                        </button>
+                        <button class="control-btn success" id="restartBtn" onclick="restartPractice()" style="display: none;">
+                            <i class="fas fa-redo"></i> Làm lại
+                        </button>
+                    </div>
+                </div>
+
+                <div id="noPracticeSelected" class="text-center py-5">
+                    <i class="fas fa-dumbbell fa-5x text-muted mb-3"></i>
+                    <h4 class="text-muted">Chưa chọn chủ đề</h4>
+                    <p class="text-muted">Vui lòng chọn một chủ đề từ tab "Chủ đề" để bắt đầu luyện tập</p>
+                </div>
+            </div>
+
+            <!-- Matching Game Tab -->
+            <div class="tab-pane fade" id="matching" role="tabpanel">
+                <div class="text-center mb-4">
+                    <h3><i class="fas fa-gamepad text-primary"></i> Trò chơi ghép thẻ</h3>
+                </div>
+
+                <div id="matchingContent" style="display: none;">
+                    <!-- Game Score -->
+                    <div class="game-score">
+                        <div class="d-inline-flex gap-3">
+                            <div class="score-item">
+                                <i class="fas fa-target text-primary"></i>
+                                <strong>Điểm:</strong> <span id="gameScore">0</span>
+                            </div>
+                            <div class="score-item">
+                                <i class="fas fa-check text-success"></i>
+                                <strong>Đúng:</strong> <span id="correctMatches">0</span>
+                            </div>
+                            <div class="score-item">
+                                <i class="fas fa-times text-danger"></i>
+                                <strong>Sai:</strong> <span id="incorrectMatches">0</span>
+                            </div>
+                            <div class="score-item">
+                                <i class="fas fa-clock text-warning"></i>
+                                <strong>Thời gian:</strong> <span id="gameTime">00:00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Game Controls -->
+                    <div class="text-center mb-4">
+                        <button class="btn btn-success" id="startGameBtn" onclick="startMatchingGame()">
+                            <i class="fas fa-play"></i> Bắt đầu trò chơi
+                        </button>
+                        <button class="btn btn-warning" id="newGameBtn" onclick="newMatchingGame()" style="display: none;">
+                            <i class="fas fa-redo"></i> Trò chơi mới
+                        </button>
+                    </div>
+
+                    <!-- Matching Game Board -->
+                    <div class="matching-container" id="matchingContainer" style="display: none;">
+                        <!-- Cards will be generated here -->
+                    </div>
+
+                    <!-- Game Complete Modal will appear here -->
+                    <div id="gameCompleteMessage" style="display: none;"></div>
+                </div>
+
+                <div id="noMatchingSelected" class="text-center py-5">
+                    <i class="fas fa-gamepad fa-5x text-muted mb-3"></i>
+                    <h4 class="text-muted">Chưa chọn chủ đề</h4>
+                    <p class="text-muted">Vui lòng chọn một chủ đề từ tab "Chủ đề" để bắt đầu trò chơi ghép thẻ</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Topic Modal -->
+<div class="modal fade" id="addTopicModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-plus-circle text-primary"></i> Thêm chủ đề mới
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addTopicForm">
+                    <div class="mb-3">
+                        <label class="form-label">Tên chủ đề</label>
+                        <input type="text" class="form-control" id="topicName"
+                               placeholder="Ví dụ: Business & Work" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mô tả</label>
+                        <textarea class="form-control" id="topicDescription" rows="3"
+                                  placeholder="Mô tả ngắn về chủ đề này..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="addNewTopic()">
+                    <i class="fas fa-save"></i> Lưu chủ đề
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Game Complete Modal -->
+<div class="modal fade" id="gameCompleteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-trophy"></i> Chúc mừng!
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="mb-4">
+                    <i class="fas fa-medal fa-5x text-warning"></i>
+                </div>
+                <h4>Bạn đã hoàn thành trò chơi!</h4>
+                <div class="row mt-4">
+                    <div class="col-4">
+                        <div class="text-center">
+                            <div class="h2 text-primary" id="finalScore">0</div>
+                            <small class="text-muted">Điểm số</small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-center">
+                            <div class="h2 text-success" id="finalCorrect">0</div>
+                            <small class="text-muted">Đúng</small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-center">
+                            <div class="h2 text-info" id="finalTime">00:00</div>
+                            <small class="text-muted">Thời gian</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-success" onclick="newMatchingGame()" data-bs-dismiss="modal">
+                    <i class="fas fa-redo"></i> Chơi lại
+                </button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                    <i class="fas fa-home"></i> Về trang chủ
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="../js/topic.js"></script>
+<div th:replace="~{layout::header}"></div>
+</body>
+</html>

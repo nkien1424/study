@@ -3,6 +3,8 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
+   x`
+
     <title>New Economy TOEIC Test 10</title>
     <link rel="stylesheet" type="text/css" href="/css/layout.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -13,7 +15,7 @@
 
 
 <!-- Đảm bảo đặt content trong fragment content -->
-<div layout:fragment="content" style="display: flex;width: 90%;margin-left: 7%;">
+<div layout:fragment="content" style="display: flex;width: 90%;margin-left: 7%;border-radius: 5px">
     <div class="container">
         <h1 th:text="${exam.getName()}">✅</h1>
         <p class="info">⏱ Thời gian làm bài: 120 phút | 7 phần thi | 200 câu hỏi | 417 bình luận</p>
@@ -37,7 +39,26 @@
 
             </tbody>
         </table>
-
+        <div class="mode-selector">
+            <div class="mode-tabs">
+                <button class="mode-tab active" onclick="changeMode(this)" data-mode="practice">Luyện tập</button>
+                <button class="mode-tab" onclick="changeMode(this)" data-mode="fulltest">Làm full test</button>
+                <button class="mode-tab" onclick="changeMode(this)" data-mode="discuss">Thảo luận</button>
+            </div>
+        </div>
+        <div id="modeDescription" style="font-style: italic; color: #666;">
+            ☞ Pro tips: Hình thức luyện tập từng phần và chọn mức thời gian phù hợp sẽ giúp bạn tập trung vào giải đúng các câu hỏi thay vì phải chịu áp lực hoàn thành bài thi.
+            </div>
+        <div id="modeDescription_full" style="color: #855a1f;
+    background-color: #ffefd8;
+    border-color: #ffe8c8;display: none">
+            <span class="far fa-exclamation-circle mr-2"></span>Sẵn sàng để bắt đầu làm full test? Để đạt được kết quả tốt nhất, bạn cần dành ra 120 phút cho bài test này.
+            <div class="practice-button"  style="margin: 20px 0;">
+                <button onclick="prac()" id="practiceFull_Btn" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;">
+                    Bắt đầu thi
+                </button>
+            </div>
+        </div>
         <div class="tag-section">
             <h3>Chọn phần thi bạn muốn làm</h3>
 
@@ -159,8 +180,49 @@
                 </button>
             </div>
         </div>
+        <div class="comments-card"  >
 
+            <div class="comments-header">
+                <h3>Bình luận</h3>
+
+            </div>
+
+            <!-- Danh sách bình luận -->
+            <!-- trong exam.html -->
+            <div th:fragment="commentList">
+                <ul class="comment-list">
+                    <li class="comment-item" th:each="c : ${comments}">
+                        <div class="avatar-cmt">
+                            <img th:if="${c.getAvatar() != null}" th:src="${c.avatar}" alt="avatar"/>
+                            <span th:if="${c.getAvatar() == null}" th:text="${#strings.substring(c.user.username,0,1)}">A</span>
+                        </div>
+
+                        <div class="comment-body">
+                            <div class="comment-meta">
+                                <div class="author" th:text="${c.user.getName()}">Tên tài khoản</div>
+                                <div class="time" th:text="${#temporals.format(c.getTime(), 'dd MMMM yyyy')}">Jun 08, 2025</div>
+                            </div>
+                            <div class="comment-content" th:text="${c.getContent()}">Nội dung bình luận...</div>
+                        </div>
+                    </li>
+                    <li th:if="${#lists.isEmpty(comments)}" style="padding:18px; color:var(--muted);">Chưa có bình luận nào.</li>
+                </ul>
+            </div>
+
+
+            <!-- Form thêm bình luận (POST). Thay examId nếu cần -->
+            <form class="comment-form" th:action="@{/exam/comment}" method="post">
+                <textarea id ="commentInput" name="content" placeholder="Viết bình luận..." required></textarea>
+                <div class="submit-group">
+                    <button type="submit" class="btn-send">Gửi</button>
+                    <button type="reset" class="btn-send secondary">Xóa</button>
+                </div>
+            </form>
+
+        </div>
     </div>
+
+
     <div class="rightside" style="    margin-top: 86px;
     margin-left: 20px;">
         <div class="sidebar">

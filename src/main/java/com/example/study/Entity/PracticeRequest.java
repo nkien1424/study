@@ -1,10 +1,10 @@
 package com.example.study.Entity;
 
+import java.util.List;
 import lombok.Data;
 
-import java.util.List;
 @Data
 public class PracticeRequest {
-    private List<Integer> selectedParts;
-    private Integer timeLimit;
+  private List<Integer> selectedParts;
+  private Integer timeLimit;
 }

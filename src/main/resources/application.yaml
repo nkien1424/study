@@ -23,7 +23,7 @@ spring:
             redirect-uri: http://localhost:8080/home
 
 server:
-  port: 8080
+  port: ${PORT:8080}
 jwt:
   signerKey : "hvsA/0Yr+0dOL4fQkEmVLgUeJgnsufJB8+nzFOd99MUo10wvoTUf3/krYa9TEtDC"
 
